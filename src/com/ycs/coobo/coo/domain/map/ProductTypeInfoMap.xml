@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.coobo.coo.dao.IProductTypeDao">
+  <select id="queryAllProductsType" parameterType="java.util.List" resultType="com.ycs.coobo.coo.domain.po.ProductTypePo">
+  	SELECT 
+		class_id classId, 
+		class_nm classNm, 
+		class_desc classDesc, 
+		class_lvl classLvl, 
+		f_class_id fClassId, 
+		class_type classType, 
+		order_num orderNum
+	FROM t_coo_productyp
+  	<where>
+  		<if test="list != null">
+  			AND class_type IN
+  			<foreach collection="list" item="type" index="index" open="(" close=")" separator=",">
+  				#{type}
+  			</foreach>
+  		</if>
+  	</where>
+  </select>
+  
+  
+  
+  
+</mapper>

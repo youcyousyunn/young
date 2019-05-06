@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.work.dao.PosWeChatTplMsgDao">
+  	<select id="qryWechatMsg" resultType="com.ycs.work.domain.po.WechatMsgPo">
+  		SELECT
+			TEMP_ID tempId, 
+			TEMP_NM tempNm, 
+			UAT_ID uatId, 
+			PRD_ID prdId, 
+			TEMP_URL tempUrl, 
+			TOP_COLOR topColor
+			FROM T_MSG_WECHATMSG
+  		<where>
+  			<if test="_parameter != null">
+  				TEMP_ID = #{tempId}
+  			</if>
+  		</where>
+  	</select>
+  	
+  	<select id="qryWechatMsgArrts" resultType="com.ycs.work.domain.po.WeMsgArrtPo">
+  	    SELECT 
+  	        ARRT_NM arrtNm, 
+  	        ARRT_COLOR arrtColor
+            FROM T_MSG_WECHATARRT
+        <where>
+            <if test="_parameter != null">
+                TEMP_ID = #{tempId}
+            </if>
+        </where>
+        ORDER BY ARRT_SORT ASC
+    </select>
+	
+
+
+
+
+
+</mapper>

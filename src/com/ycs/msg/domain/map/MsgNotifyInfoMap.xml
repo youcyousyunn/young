@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.msg.dao.MsgNotifyDao">
+  <insert id="addMsgNotify" parameterType="com.ycs.msg.domain.po.MsgNotifyPo">
+  	INSERT INTO T_MSG_NOTIFY (MSG_ID, 
+	  	MSG_TITLE, 
+	  	MSG_CONTENT, 
+	  	MSG_TYP, 
+	  	LUNCHUSR_NO, 
+	  	SEND_TYP, 
+	  	ACTION_TYP, 
+	  	TARGET_ID, 
+	  	LINK_URL, 
+	  	EXT_JSON, 
+	  	CRE_DT, 
+	  	CRE_TM) 
+  	VALUES(
+		#{msgId,jdbcType=VARCHAR}, 
+  		#{msgTitle,jdbcType=VARCHAR},
+  		#{msgContent,jdbcType=VARCHAR},
+  		#{msgTyp,jdbcType=VARCHAR},
+  		#{lunchUsrNo,jdbcType=VARCHAR},
+  		#{sendTyp,jdbcType=VARCHAR},
+  		#{actionTyp,jdbcType=VARCHAR},
+  		#{targetId,jdbcType=VARCHAR},
+  		#{linkUrl,jdbcType=VARCHAR},
+  		#{extJson,jdbcType=VARCHAR},
+  		#{creDt,jdbcType=VARCHAR},
+  		#{creTm,jdbcType=VARCHAR}
+	)
+  </insert>
+  
+  <select id="qryMsgNotifyCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT COUNT(1) 
+  	FROM T_MSG_USERNOTIFY A
+  	INNER JOIN T_MSG_NOTIFY B ON B.MSG_ID=A.MSG_ID
+  	INNER JOIN T_SYS_USERINFO C ON C.USR_NO=B.LUNCHUSR_NO
+  	<where>
+  		<if test="msgTyp != null">
+  			AND MSG_TYP = #{msgTyp}
+  		</if>
+  		<if test="title != null">
+  			AND MSG_TITLE = #{title}
+  		</if>
+  		<if test="lunchUsrNo != null">
+  			AND LUNCHUSR_NO = #{lunchUsrNo}
+  		</if>
+  		<if test="recvUsrNo != null">
+  			AND A.USR_NO = #{recvUsrNo}
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="qryMsgNotifyPage" parameterType="java.util.Map" resultType="com.ycs.msg.domain.po.MsgNotifyPo">
+  	SELECT 
+	  	A.NOTIF_ID notifId,
+	  	A.IS_READ isRead,
+	  	A.IS_STAR isStar,
+	  	A.MSG_ID msgId,
+	  	B.MSG_TITLE msgTitle,
+	  	B.MSG_CONTENT msgContent,
+	  	B.MSG_TYP msgTyp,
+	  	B.LUNCHUSR_NO lunchUsrNo,
+	  	C.USR_NM lunchUsrNm,
+	  	B.SEND_TYP sendTyp,
+	  	B.ACTION_TYP actionTyp,
+	  	B.TARGET_ID targetId,
+	  	B.EXT_JSON extJson,
+	  	B.LINK_URL linkUrl,
+	  	B.CRE_DT creDt,
+	  	B.CRE_TM creTm 
+  	FROM T_MSG_USERNOTIFY A
+  	INNER JOIN T_MSG_NOTIFY B ON B.MSG_ID=A.MSG_ID
+  	INNER JOIN T_SYS_USERINFO C ON C.USR_NO=A.USR_NO
+  	<where>
+  		<if test="msgTyp != null">
+  			AND MSG_TYP = #{msgTyp}
+  		</if>
+  		<if test="title != null">
+  			AND MSG_TITLE = #{title}
+  		</if>
+  		<if test="lunchUsrNo != null">
+  			AND LUNCHUSR_NO = #{lunchUsrNo}
+  		</if>
+  		<if test="recvUsrNo != null">
+  			AND A.USR_NO = #{recvUsrNo}
+  		</if>
+  	</where>
+  	ORDER BY B.CRE_DT DESC,B.CRE_TM DESC
+  	LIMIT #{startRow}, #{offset}
+  </select>
+  
+  <select id="qryMsgNotifyByMsgId" parameterType="java.lang.String" resultType="com.ycs.msg.domain.po.MsgNotifyPo">
+  	SELECT
+		MSG_ID msgId,
+		MSG_TITLE msgTitle,
+		MSG_CONTENT msgContent,
+		MSG_TYP msgTyp,
+		LUNCHUSR_NO lunchUsrNo,
+		SEND_TYP sendTyp,
+		ACTION_TYP actionTyp,
+		TARGET_ID targetId,
+		LINK_URL linkUrl,
+		JSON_UNQUOTE(EXT_JSON) extJson,
+		CRE_DT creDt,
+		CRE_TM creTm
+		FROM T_MSG_NOTIFY
+	<where>
+		<if test="_parameter != null">
+			MSG_ID = #{msgId}
+		</if>
+	</where>  
+  </select>
+  
+  <select id="qryNotifyCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT COUNT(1) 
+  	FROM T_MSG_NOTIFY 
+  	<where>
+  		<if test="msgTyp != null">
+  			AND MSG_TYP = #{msgTyp}
+  		</if>
+  		<if test="title != null">
+  			AND MSG_TITLE = #{title}
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="qryNotifyPage" parameterType="java.util.Map" resultType="com.ycs.msg.domain.po.MsgNotifyPo">
+  	SELECT 
+	  	A.MSG_TITLE msgTitle,
+	  	A.MSG_CONTENT msgContent,
+	  	A.MSG_TYP msgTyp,
+	  	A.LUNCHUSR_NO lunchUsrNo,
+	  	A.SEND_TYP sendTyp,
+	  	A.ACTION_TYP actionTyp,
+	  	A.TARGET_ID targetId,
+	  	A.EXT_JSON extJson,
+	  	A.LINK_URL linkUrl,
+	  	B.USR_NM lunchUsrNm,
+	  	A.CRE_DT creDt,
+	  	A.CRE_TM creTm 
+  	FROM T_MSG_NOTIFY A
+  	INNER JOIN T_SYS_USERINFO B ON B.USR_NO=A.LUNCHUSR_NO
+  	<where>
+  		<if test="msgTyp != null">
+  			AND MSG_TYP = #{msgTyp}
+  		</if>
+  		<if test="title != null">
+  			AND MSG_TITLE = #{title}
+  		</if>
+  	</where>
+  	ORDER BY CRE_DT DESC,CRE_TM DESC
+  	LIMIT #{startRow}, #{offset}
+  </select>
+  
+  
+</mapper>

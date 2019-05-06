@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.coobo.coo.dao.StoHoseMngDao">
+  <select id="qryStohAllPrdLst" parameterType="java.util.Map" resultType="com.ycs.coobo.coo.domain.po.StohPrdPo">
+  	SELECT
+		A.BAR_CODE barCode,
+		B.CLASS_ID classId,
+		B.PRD_NM prdNm,
+		B.BRAND_NM brandNm,
+		B.PRD_STS prdSts,
+		B.IS_APART isApart,
+		B.POS_UNIT shopUnit,
+		B.WHSLE_SPEC whsleSpec,
+		B.WHSLE_UNIT whsleUnit,
+		B.WHSLE_CNT whsleCnt,
+		(SELECT IF(SUM(ORD_CNT)IS NULL,0,SUM(ORD_CNT)) FROM T_SHOP_SELLDETAIL E WHERE SELL_DT BETWEEN #{lastWeekFirstDay} AND #{lastWeekLastDay} AND E.SHOP_NO = #{shopNo} AND A.BAR_CODE=E.BAR_CODE) lastWeekSellNum,
+		(SELECT IF(SUM(ORD_CNT)IS NULL,0,SUM(ORD_CNT)) FROM T_SHOP_SELLDETAIL F WHERE SELL_DT BETWEEN #{upDate} AND #{nowDate} AND F.SHOP_NO = #{shopNo} AND A.BAR_CODE=F.BAR_CODE) nowSellNum,
+		<!-- (SELECT IF(SUM(S.NOW_NUM) IS NULL,0,SUM(S.NOW_NUM)) FROM T_SHOP_STOCK S WHERE S.BAR_CODE = A.BAR_CODE AND S.SHOP_NO = #{shopNo}) nowStockNum, -->
+		B.TAXES tax,
+		A.WHSLE_PRICE whslePrice,
+		C.SHOP_PRICE shopPrice,
+		A.UPD_DT updDt
+	FROM T_COO_WHSLEPRICE A
+	INNER JOIN T_COO_PRODUCT B ON A.BAR_CODE=B.BAR_CODE
+	INNER JOIN T_COO_SHOPPRICE C ON A.BAR_CODE = C.BAR_CODE AND A.PROV=C.PROV AND A.CITY=C.CITY
+	INNER JOIN T_COO_PRDCITY D ON A.BAR_CODE = D.BAR_CODE AND A.PROV=D.PROV AND A.CITY=D.CITY
+  	<where>
+  		and B.PRD_STS = 'S'
+  		and D.UP_STS='S'
+  		<if test="prov != null">
+  			and A.PROV = #{prov}
+  		</if>
+  		<if test="city != null">
+  			and A.CITY = #{city}
+  		</if>
+  		<if test="shopNo != null">
+  			and C.SHOP_NO = #{shopNo}
+  		</if>
+  		<if test="shopTyp != null">
+  			and A.WHSLE_TYP = #{shopTyp} 
+  		</if>
+  		<if test="search != null">
+  			and (B.PRD_NM LIKE <![CDATA['%${search}%']]> OR A.BAR_CODE LIKE <![CDATA['%${search}%']]>)
+  		</if>
+  		<choose>
+  			<when test="classId != null">
+  				and B.CLASS_ID IN (SELECT CLASS_ID FROM T_COO_PRODUCTYP WHERE F_CLASS_ID = #{classId} OR CLASS_ID = #{classId}
+  				OR F_CLASS_ID IN (SELECT CLASS_ID FROM T_COO_PRODUCTYP WHERE F_CLASS_ID = #{classId}))
+  			</when>
+  			<otherwise>
+  				<if test="classTyp != null">
+  					and B.CLASS_ID IN (SELECT CLASS_ID FROM T_COO_PRODUCTYP WHERE CLASS_TYPE = #{classTyp})
+  				</if>
+  			</otherwise>
+  		</choose>
+  	</where>
+  	ORDER BY B.BRAND_NO DESC
+  </select>
+  
+  <select id="qryStoHoseInfoByStohNo" parameterType="java.lang.String" resultType="com.ycs.coobo.stoh.domain.po.StoHosePo">
+    SELECT 
+	    STOH_NO stohNo, 
+	    STOH_NM stohNm, 
+	    STOH_TYPE stohType, 
+	    MNGER mnger, 
+	    MNG_USRNO mngUsrNo, 
+	    STOH_TEL stohTel, 
+	    STOH_STS stohSts, 
+	    PROV prov, 
+	    CITY city, 
+	    DISTRICT district, 
+	    STREET street, 
+	    HOSENO hoseNo, 
+	    LNG_UDE lngUde, 
+	    LAT_UDE latUde, 
+	    CRE_DT creDt
+    FROM T_COO_STOHOSE 
+    <where>
+        <if test="_parameter != null">
+            STOH_NO = #{stohNo}
+        </if>
+    </where>
+  </select>
+  
+  <insert id="addStoHoseOrdr" parameterType="com.ycs.coobo.stoh.domain.po.StoHoseOrdrPo">
+    INSERT INTO T_STOH_ORDR (
+        ORD_NO, 
+        ORD_CNL, 
+        ORD_TYP, 
+        ORD_CLS, 
+        PROV, 
+        CITY, 
+        DISTRICT, 
+        STOH_NO, 
+        STOH_NM, 
+        IS_LDIST, 
+        SHOPORD_NO, 
+        ORD_STS, 
+        ORD_DT, 
+        ORD_TM, 
+        EFF_DAY, 
+        EXP_DT, 
+        EXP_TM, 
+        SKU_CNT, 
+        ORD_AMT, 
+        TAX_AMT, 
+        USR_NO, 
+        ORD_DESC
+    )
+    VALUES(
+        #{ordNo, jdbcType=VARCHAR},
+        #{ordCnl, jdbcType=VARCHAR},
+        #{ordTyp, jdbcType=VARCHAR},
+        #{ordCls, jdbcType=VARCHAR},
+        #{prov, jdbcType=VARCHAR},
+        #{city, jdbcType=VARCHAR},
+        #{district, jdbcType=VARCHAR},
+        #{stohNo, jdbcType=VARCHAR},
+        #{stohNm, jdbcType=VARCHAR},
+        #{isLdist, jdbcType=VARCHAR},
+        #{shopOrdNo, jdbcType=VARCHAR},
+        #{ordSts, jdbcType=VARCHAR},
+        #{ordDt, jdbcType=VARCHAR},
+        #{ordTm, jdbcType=VARCHAR},
+        #{effDay, jdbcType=VARCHAR},
+        #{expDt, jdbcType=VARCHAR},
+        #{expTm, jdbcType=VARCHAR},
+        #{skuCnt, jdbcType=VARCHAR},
+        #{ordAmt, jdbcType=VARCHAR},
+        #{taxAmt, jdbcType=VARCHAR},
+        #{usrNo, jdbcType=VARCHAR},
+        #{ordDesc, jdbcType=VARCHAR}
+    )
+  </insert>
+  
+  <insert id="addStoHoseOrdrDetail" parameterType="java.util.List">
+    INSERT INTO T_STOH_ORDTETAIL (
+        JRN_NO, 
+        ORD_NO, 
+        SUPPLI_NO, 
+        SUPPLI_NM, 
+        BAR_CODE, 
+        PRD_NM, 
+        SPEC, 
+        PRICE, 
+        TOTPRICE, 
+        UNIT, 
+        CNT, 
+        WGHT, 
+        TOT_WGHT, 
+        TAX, 
+        ORD_CNT, 
+        REVW_CNT, 
+        SURPLUS_CNT, 
+        IS_LDIST, 
+        CRE_DT, 
+        CRE_TM
+    )
+    VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+          (
+            #{item.jrnNo, jdbcType=VARCHAR},
+            #{item.ordNo, jdbcType=VARCHAR},
+            #{item.suppliNo, jdbcType=VARCHAR},
+            #{item.suppliNm, jdbcType=VARCHAR},
+            #{item.barCode, jdbcType=VARCHAR},
+            #{item.prdNm, jdbcType=VARCHAR},
+            #{item.spec, jdbcType=VARCHAR},
+            #{item.price, jdbcType=VARCHAR},
+            #{item.totPrice, jdbcType=VARCHAR},
+            #{item.unit, jdbcType=VARCHAR},
+            #{item.cnt, jdbcType=VARCHAR},
+            #{item.wght, jdbcType=VARCHAR},
+            #{item.totWght, jdbcType=VARCHAR},
+            #{item.tax, jdbcType=VARCHAR},
+            #{item.ordCnt, jdbcType=VARCHAR},
+            #{item.revwCnt, jdbcType=VARCHAR},
+            #{item.surplusCnt, jdbcType=VARCHAR},
+            #{item.isLdist, jdbcType=VARCHAR},
+            #{item.creDt, jdbcType=VARCHAR},
+            #{item.creTm, jdbcType=VARCHAR}
+          )
+        </foreach>
+  </insert>
+  
+</mapper>

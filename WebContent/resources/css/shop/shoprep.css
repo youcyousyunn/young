@@ -1,0 +1,44 @@
+.rep-cnts{
+	border: 1px solid #C0C0C0;
+	max-height: 310px;
+}
+.shoprep-pad{
+	margin-left: 0px !important;
+	margin-right: 0px !important;
+}
+.allot-cnts{
+	border: 1px solid #C0C0C0;
+	max-height: 270px;
+	overflow: auto;
+}
+.rep-table,.shop_table,.allot-table{
+	min-width: 1000px;
+	margin-bottom: 0;
+	text-align: center;
+}
+.shop_repinput{
+	border: none;
+	max-width: 100px;
+	text-align: center;
+}
+.rep-a{
+	margin-right: 10px;
+}
+.rep-sc{
+	min-width: 50px;
+	cursor:default;
+}
+.allot-tops{
+	margin: 10px 0;
+}
+.allot-tops select{
+	margin-left: 10px;
+}
+.allot-tops label input{
+	margin-top: 0px;
+}
+.zczc{
+    left: -970px !important;
+    min-width: auto !important;
+}
+

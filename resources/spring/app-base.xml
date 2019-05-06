@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.1.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+
+	<!-- spring 基础配置 -->
+	<bean id="applicationContext" class="com.ycs.base.spring.SpringContextHolder" />
+	<context:component-scan base-package="com.ycs.**.service,com.ycs.**.bo,com.ycs.base.spring,com.ycs.**.jms.*" /> 
+	<!-- 开启注解 -->
+	<context:annotation-config />
+    <!-- 启动cglib代理 -->
+    <aop:aspectj-autoproxy proxy-target-class="true" />
+	
+	<!-- 公共参数配置 -->
+	<bean id="propertyConfigurer" class="com.ycs.base.property.SystemPropertyConfigure">
+		<property name="locations">
+			<list>
+				<value>classpath:/*.properties</value>
+				<value>classpath:/system.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 日志处理切面类 -->
+	<bean id="boLogAspectHandler" class="com.ycs.base.spring.aspect.LogAspect">
+		<property name="logName" value="BO" />
+	</bean>
+	
+	<aop:config>
+		<!-- 定义切面 -->
+		<aop:aspect id="logAspect" ref="boLogAspectHandler">
+			<!-- 定义pointcut,并写表达式 -->
+			<aop:pointcut id="boMethod" expression="execution(* com.ycs.base.spring.bo.*.*(..)) 
+			 and @annotation(com.ycs.base.annotation.HiBoMethod)" />
+			<!-- 定义advice,织入pointcut -->
+			<aop:around method="doAround" pointcut-ref="boMethod" />
+		</aop:aspect>
+	</aop:config>
+	
+	<!-- 请求处理切面类 -->
+	<bean id="reqAspectHandler" class="com.ycs.base.spring.aspect.ReqAspect" />
+	
+	<aop:config proxy-target-class="true">
+		<!-- 参数处理切面 -->
+		<aop:aspect id="reqAspect" ref="reqAspectHandler">
+			<!-- 定义pointcut,并写表达式 -->
+			<aop:pointcut id="reqMethod"
+				expression="execution(* com.ycs.base.spring.converter.interceptor.impl.RequestInfoInterceptor.preHandler(..))" />
+			<!-- 定义advice,织入pointcut -->
+			<aop:around method="doAround" pointcut-ref="reqMethod" />
+		</aop:aspect>
+	</aop:config>
+	
+</beans>

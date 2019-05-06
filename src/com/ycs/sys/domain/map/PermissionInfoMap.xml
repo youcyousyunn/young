@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.sys.dao.IPermissionDao">
+	<insert id="addPermission" parameterType="com.ycs.sys.domain.po.PermissionPo">
+		insert into t_sys_permission(
+			per_nm, 
+			per_type, 
+			per_sts, 
+			per_lv, 
+			fper_no, 
+			per_ico, 
+			per_url, 
+			per_desc, 
+			url_auth
+		)
+		values(
+			#{perNm,jdbcType=VARCHAR},
+			#{perType,jdbcType=VARCHAR},
+			#{perSts,jdbcType=VARCHAR},
+			#{perLv,jdbcType=INTEGER},
+			#{fPerNo,jdbcType=INTEGER},
+			#{perIco,jdbcType=VARCHAR},
+			#{perUrl,jdbcType=VARCHAR},
+			#{perDesc,jdbcType=VARCHAR},
+			#{urlAuth,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert	id="addRolePermission" parameterType="java.util.List">
+		INSERT INTO t_sys_rolepermission (
+			role_no, per_no
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.roleNo, jdbcType=VARCHAR}, #{item.perNo, jdbcType=INTEGER})
+		</foreach>
+	</insert>
+	
+	<delete id="deletePermission" parameterType="java.util.List">
+		delete from t_sys_permission
+		<where>
+	    	<if test="list != null">
+	    		AND PER_NO IN 
+	    		<foreach collection="list" item="perNo" index="index" open="(" close=")" separator=",">
+            		#{perNo}
+            	</foreach>
+	    	</if>
+    	</where>
+	</delete>
+	
+	<delete id="deleteRolePermission" parameterType="java.util.List">
+		DELETE FROM t_sys_rolepermission
+		<where>
+	    	<if test="list != null">
+	    		AND role_no IN 
+	    		<foreach collection="list" item="roleNo" index="index" open="(" close=")" separator=",">
+            		#{roleNo}
+            	</foreach>
+	    	</if>
+    	</where>
+	</delete>
+	
+	<update id="updatePermission" parameterType="com.ycs.sys.domain.po.PermissionPo" >
+		update t_sys_permission
+		<set>
+			<if test="perNm != null">
+				per_nm = #{perNm},
+			</if>
+			<if test="perType != null">
+				per_type = #{perType},
+			</if>
+			<if test="perSts != null">
+				per_sts = #{perSts},
+			</if>
+			<if test="perIco != null">
+				per_ico = #{perIco},
+			</if>
+			<if test="perUrl != null">
+				per_url = #{perUrl},
+			</if>
+			<if test="perDesc != null">
+				per_desc = #{perDesc}
+			</if>
+		</set>
+		<where>
+			per_no = #{perNo}
+		</where>
+	</update>
+
+	<select id="queryMenu" parameterType="java.util.List" resultType="com.ycs.sys.domain.po.PermissionPo">
+		SELECT p.per_no perNo, 
+		    p.per_lv perLv,
+		    p.per_type perType,
+		    p.fper_no fPerNo,
+			p.per_sts perSts,
+			p.per_ico perIco,
+			p.per_url perUrl,
+			p.per_nm perNm,
+			p.per_desc perDesc,
+			p.url_auth urlAuth
+		FROM t_sys_permission p, t_sys_rolepermission rp
+		<where>
+	    	<if test="list != null">
+	    		AND rp.role_no IN 
+	    		<foreach collection="list" item="roleNo" index="index" open="(" close=")" separator=",">
+            		#{roleNo}
+            	</foreach>
+	    	</if>
+	    	AND p.per_no = rp.per_no
+	    	AND p.per_type = "MENU"
+	    	AND p.per_sts = "S"
+    	</where>
+    	ORDER by p.per_sort ASC
+	</select>
+	
+	<select id="queryPermissions" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.PermissionPo">
+		SELECT p.per_no perNo, 
+		    p.per_lv perLv,
+		    p.per_type perType,
+		    p.fper_no fPerNo,
+			p.per_sts perSts,
+			p.per_ico perIco,
+			p.per_url perUrl,
+			p.per_nm perNm,
+			p.per_desc perDesc,
+			p.url_auth urlAuth
+		FROM t_sys_permission p
+		<if test="userNo != null">
+			INNER JOIN t_sys_usr_permission u ON u.per_no = p.per_no
+		</if>
+		<where>
+			<if test="userNo != null">
+				AND u.usr_no = userNo
+			</if>
+			<if test="type != null">
+				AND p.per_type = type
+			</if>
+			<if test="status != null">
+				AND p.per_sts = status
+			</if>
+		</where>
+	</select>
+	
+	<select id="queryPermissionsByRoles" parameterType="java.util.List" resultType="java.lang.Integer">
+		SELECT per_no FROM t_sys_rolepermission
+		<where>
+			<if test="list != null">
+	    		AND role_no IN 
+	    		<foreach collection="list" item="roleNo" index="index" open="(" close=")" separator=",">
+            		#{roleNo}
+            	</foreach>
+	    	</if>
+		</where>
+	</select>
+
+</mapper>

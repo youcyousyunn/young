@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.sys.dao.IUserInfoDao">
+  <insert id="register" parameterType="com.ycs.sys.domain.po.UserInfoPo">
+    INSERT INTO t_sys_userinfo (usr_no,
+        usr_pwd,
+        usr_nm,
+        email,
+        usr_sts,
+        depar_no
+    )
+    VALUES(
+        #{usrNo,jdbcType=VARCHAR}, 
+        #{usrPwd,jdbcType=VARCHAR},
+        #{usrNm,jdbcType=VARCHAR},
+        #{email,jdbcType=VARCHAR},
+        #{usrSts,jdbcType=CHAR},
+        #{deparNo,jdbcType=VARCHAR}
+    )
+  </insert>
+  <insert id="addUserInfo" parameterType="com.ycs.sys.domain.po.UserInfoPo">
+  	INSERT INTO t_sys_userinfo (usr_no,
+		usr_pwd,
+		job_no,
+		usr_nm,
+		pic_url,
+		sex,
+		usr_sts,
+		mbl_no,
+		birthday,
+		depar_no,
+		depar_nm,
+		is_mnger,
+		duties,
+		entry_dt,
+		leave_dt,
+		wechat,
+		qq
+  	)
+  	VALUES(
+  		#{usrNo,jdbcType=VARCHAR}, 
+  		#{usrPwd,jdbcType=VARCHAR},
+  		#{jobNo,jdbcType=VARCHAR},
+  		#{usrNm,jdbcType=VARCHAR},
+  		#{picUrl,jdbcType=VARCHAR},
+  		#{sex,jdbcType=CHAR},
+  		#{usrSts,jdbcType=CHAR},
+  		#{mblNo,jdbcType=VARCHAR},
+  		#{birthday,jdbcType=VARCHAR},
+  		#{deparNo,jdbcType=VARCHAR},
+  		#{deparNm,jdbcType=VARCHAR},
+  		#{isMnger,jdbcType=CHAR},
+  		#{duties,jdbcType=VARCHAR},
+  		#{entryDt,jdbcType=DATE},
+  		#{leaveDt,jdbcType=DATE},
+  		#{wechat,jdbcType=VARCHAR},
+        #{qq,jdbcType=VARCHAR}
+  	)
+  </insert>
+  
+  <update id="deleteUserInfo" parameterType="java.util.List">
+    <foreach collection="list" item="item" index="index" separator=";">
+    	UPDATE t_sys_userinfo
+    	<set>
+    		<if test="item.usrSts != null">
+    			usr_sts = #{item.usrSts}
+    		</if>
+    	</set>
+    	<where>
+    		<if test="item.usrNo != null and item.usrNo != ''">
+    			usr_no = #{item.usrNo}
+    		</if>
+    	</where>
+    </foreach>
+  </update>
+  
+  <update id="updateUserInfo" parameterType="com.ycs.sys.domain.po.UserInfoPo">
+  	UPDATE t_sys_userinfo
+  	<set>
+  		<if test="jobNo != null">
+  			job_no = #{jobNo},
+  		</if>
+  		<if test="usrNm != null">
+  			usr_nm = #{usrNm},
+  		</if>
+  		<if test="picUrl != null">
+  			pic_url = #{picUrl},
+  		</if>
+  		<if test="sex != null">
+  			sex = #{sex},
+  		</if>
+  		<if test="usrSts != null">
+  			usr_sts = #{usrSts},
+  		</if>
+  		<if test="birthday != null">
+  			birthday = #{birthday},
+  		</if>
+  		<if test="deparNo != null">
+  			depar_no = #{deparNo},
+  		</if>
+  		<if test="deparNm != null">
+  			depar_nm = #{deparNm},
+  		</if>
+  		<if test="duties != null">
+  			duties = #{duties},
+  		</if>
+  		<if test="entryDt != null">
+  			entry_dt = #{entryDt},
+  		</if>
+  		<if test="leaveDt != null">
+  			leave_dt = #{leaveDt},
+  		</if>
+  		<if test="wechat != null">
+  			wechat = #{wechat},
+  		</if>
+  		<if test="qq != null">
+  			qq = #{qq}
+  		</if>
+  	</set>
+  	<where>
+  		<if test="usrNo != null">
+  			usr_no = #{usrNo}
+  		</if>
+  	</where>
+  </update>
+  
+  <update id="updateDeptmentByNo" parameterType="java.util.Map">
+  	UPDATE t_sys_userinfo
+  	<set>
+  		<if test="deptmentName != null">
+  			depar_nm = #{deptmentName}
+  		</if>
+  	</set>
+  	<where>
+  		<if test="deptmentNo != null">
+  			depar_no = #{deptmentNo}
+  		</if>
+  	</where>
+  </update>
+  
+  <update id="updateUserDeptment" parameterType="java.util.Map">
+  	UPDATE t_sys_userinfo
+  	<set>
+  		<if test="deparNo != null">
+  			depar_no = #{deparNo},
+  		</if>
+  		<if test="deparNm != null">
+  			depar_nm = #{deparNm}
+  		</if>
+  	</set>
+  	<where>
+  		<if test="usrNo != null">
+  			usr_no = #{usrNo}
+  		</if>
+  	</where>
+  </update>
+  
+  <select id="queryByLoginName" resultType="com.ycs.sys.domain.po.UserInfoPo">
+    SELECT 
+    	usr_no usrNo, 
+	    usr_pwd usrPwd, 
+	    job_no jobNo, 
+	    usr_nm usrNm, 
+	    sex sex, 
+	    usr_sts usrSts, 
+	    mbl_no mblNo, 
+	    birthday birthday, 
+	    depar_no deparNo, 
+	    depar_nm deparNm, 
+	    duties duties, 
+	    entry_dt entryDt, 
+	    leave_dt leaveDt,
+	    wechat wechat, 
+	    qq qq
+    FROM t_sys_userinfo t
+    <where>
+    	<if test="_parameter != null">
+    		and t.USR_NM = #{logNm}
+    	</if>
+    </where>
+  </select>
+  
+  <select id="queryUserInfo" resultType="com.ycs.sys.domain.po.UserInfoPo">
+  	SELECT 
+    	usr_no usrNo, 
+	    usr_pwd usrPwd, 
+	    job_no jobNo, 
+	    usr_nm usrNm, 
+	    sex sex, 
+	    usr_sts usrSts, 
+	    mbl_no mblNo, 
+	    birthday birthday, 
+	    depar_no deparNo, 
+	    depar_nm deparNm, 
+	    duties duties, 
+	    entry_dt entryDt,
+	    leave_dt leaveDt,
+	    wechat wechat, 
+	    qq qq
+    FROM t_sys_userinfo t
+    <where>
+    	<if test="_parameter != null">
+    		and t.usr_no = #{usrNo}
+    	</if>
+    </where>
+  </select>
+  
+  <select id="getCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT COUNT(1) FROM t_sys_userinfo
+  	<where>
+  		<if test="status != null">
+  			and usr_sts != #{status}
+  		</if>
+  		<if test="search != null">
+  			and (usr_nm LIKE <![CDATA['%${search}%']]> OR usr_no LIKE <![CDATA['%${search}%']]> OR mbl_no LIKE <![CDATA['%${search}%']]>
+  				 OR depar_nm LIKE <![CDATA['%${search}%']]> OR wechat LIKE <![CDATA['%${search}%']]> OR qq LIKE <![CDATA['%${search}%']]>)
+  		</if>
+  		<if test="sex != null">
+  			and sex = #{sex}
+  		</if>
+  		<if test="deparNo != null">
+  			and FIND_IN_SET(depar_no, getDeparChildLst(#{deparNo}))
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="queryPage" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.UserInfoPo">
+  	SELECT 
+    	usr_no usrNo, 
+	    usr_pwd usrPwd, 
+	    job_no jobNo, 
+	    usr_nm usrNm, 
+	    sex sex, 
+	    usr_sts usrSts, 
+	    mbl_no mblNo, 
+	    birthday birthday, 
+	    depar_no deparNo, 
+	    depar_nm deparNm, 
+	    duties duties, 
+	    entry_dt entryDt, 
+	    leave_dt leaveDt,
+	    wechat wechat, 
+	    qq qq
+    FROM t_sys_userinfo t
+  	<where>
+  		<if test="status != null">
+  			and usr_sts != #{status}
+  		</if>
+  		<if test="search != null">
+  			and (usr_nm LIKE <![CDATA['%${search}%']]> OR usr_no LIKE <![CDATA['%${search}%']]> OR mbl_no LIKE <![CDATA['%${search}%']]>
+  				 OR depar_nm LIKE <![CDATA['%${search}%']]> OR wechat LIKE <![CDATA['%${search}%']]> OR qq LIKE <![CDATA['%${search}%']]>)
+  		</if>
+  		<if test="sex != null">
+  			and sex = #{sex}
+  		</if>
+  		<if test="deparNo != null">
+  			and FIND_IN_SET(depar_no, getDeparChildLst(#{deparNo}))
+  		</if>
+  	</where>
+  	ORDER BY #{sort} #{sortName}
+  	LIMIT #{startRow}, #{offset}
+  </select>
+  
+  <select id="mobileExists" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	SELECT COUNT(1) FROM t_sys_userinfo
+  	<where>
+  		<if test="_parameter != null">
+  			mbl_no = #{mobileNo}
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="queryUserInfos" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.UserInfoPo">
+  	SELECT 
+    	usr_no usrNo, 
+	    usr_pwd usrPwd, 
+	    job_no jobNo, 
+	    usr_nm usrNm, 
+	    sex sex, 
+	    usr_sts usrSts, 
+	    mbl_no mblNo, 
+	    birthday birthday, 
+	    depar_no deparNo, 
+	    depar_nm deparNm, 
+	    duties duties, 
+	    entry_dt entryDt, 
+	    leave_dt leaveDt,
+	    wechat wechat, 
+	    qq qq
+    FROM t_sys_userinfo t
+  	<where>
+  		<if test="usrNm != null">
+  			and usr_nm LIKE <![CDATA['%${usrNm}%']]>
+  		</if>
+  		<if test="usrSts != null">
+  			and usr_sts != #{usrSts}
+  		</if>
+  	</where>
+  </select>
+  
+  <update id="updateSelfInfo" parameterType="com.ycs.sys.domain.po.UserInfoPo">
+    UPDATE t_sys_userinfo
+    <set>
+        <if test="jobNo != null">
+            job_no = #{jobNo},
+        </if>
+        <if test="usrNm != null">
+            usr_nm = #{usrNm},
+        </if>
+        <if test="picUrl != null">
+            pic_url = #{picUrl},
+        </if>
+        <if test="sex != null">
+            sex = #{sex},
+        </if>
+        <if test="usrSts != null">
+            usr_sts = #{usrSts},
+        </if>
+        <if test="birthday != null">
+            birthday = #{birthday},
+        </if>
+        <if test="deparNo != null">
+            depar_no = #{deparNo},
+        </if>
+        <if test="deparNm != null">
+            depar_nm = #{deparNm},
+        </if>
+        <if test="duties != null">
+            duties = #{duties},
+        </if>
+        <if test="entryDt != null">
+            entry_dt = #{entryDt},
+        </if>
+        <if test="leaveDt != null">
+            leave_dt = #{leaveDt},
+        </if>
+        <if test="wechat != null">
+            wechat = #{wechat},
+        </if>
+        <if test="qq != null">
+            qq = #{qq}
+        </if>
+    </set>
+    <where>
+        <if test="usrNo != null">
+            usr_no = #{usrNo}
+        </if>
+    </where>
+  </update>
+  
+  <update id="updateSelfPwd" parameterType="com.ycs.sys.domain.po.UserInfoPo">
+    UPDATE t_sys_userinfo
+    <set>
+        <if test="usrPwd != null">
+            usr_pwd = #{usrPwd}
+        </if>
+    </set>
+    <where>
+        <if test="usrNo != null">
+            usr_no = #{usrNo}
+        </if>
+    </where>
+  </update>
+  
+  <select id="qryAllUserByFDept" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.UserInfoPo">
+  	SELECT
+		usr_no usrNo,
+		job_no jobNo,
+		usr_nm usrNm,
+		sex sex,
+		usr_sts usrSts,
+		mbl_no mblNo,
+		birthday birthday,
+		depar_no deparNo,
+		depar_nm deparNm,
+		duties duties,
+		entry_dt entryDt,
+		leave_dt leaveDt,
+		wechat wechat,
+		qq qq
+	FROM t_sys_userinfo
+	<where>
+		<if test="deparNo != null">
+			and FIND_IN_SET(depar_no, getDeparChildLst(#{deparNo}))
+  		</if>
+	</where>
+  </select>
+  
+</mapper>

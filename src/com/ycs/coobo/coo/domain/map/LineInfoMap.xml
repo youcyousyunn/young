@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.coobo.coo.dao.ILineDao">
+  <select id="qryLineInfoByShop" parameterType="java.util.Map" resultType="com.ycs.coobo.coo.domain.po.LineInfoPo">
+  	SELECT 
+  		l.line_no lineNo,
+  		l.line_nm lineNm,
+  		l.STOH_NO stohNo,
+  		l.LINE_STS lineSts  
+  	FROM t_logis_lineinfo l 
+  	INNER JOIN t_logis_linedetail d ON l.LINE_NO=d.LINE_NO
+  	<where>
+  		AND l.LINE_STS='S'
+  		<if test="stohNo != null">
+  			AND l.STOH_NO = #{stohNo}
+  		</if>
+  		<if test="shopNo != null">
+  			AND d.SHOP_NO = #{shopNo}
+  		</if>
+  	</where>
+  </select>
+  
+  
+  
+  
+</mapper>

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.sys.dao.IDeptmentDao">
+	<update id="renameDeptment" parameterType="java.util.Map">
+		UPDATE t_sys_deptment
+		<set>
+			<if test="deptmentName != null">
+				depar_nm = #{deptmentName}
+			</if>
+		</set>
+		<where>
+			<if test="deptmentNo != null">
+				depar_no = #{deptmentNo}
+			</if>
+			<if test="deptmentName != null">
+				depar_nm = #{deptmentName}
+			</if>
+		</where>
+	</update>
+	
+	<update id="updateDeptment" parameterType="com.ycs.sys.domain.po.DeptmentPo">
+		UPDATE t_sys_deptment
+		<set>
+			<if test="mngerNm != null">
+				mnger_nm = #{mngerNm},
+			</if>
+			<if test="mngerUsrNo != null">
+				mnger_usrno = #{mngerUsrNo},
+			</if>
+			<if test="fDeparNo != null">
+				fdepar_no = #{fDeparNo},
+			</if>
+			<if test="deparSts != null">
+				depar_sts = #{deparSts},
+			</if>
+			<if test="updDt != null">
+				upd_dt = #{updDt}
+			</if>
+		</set>
+		<where>
+			<if test="deparNo != null">
+				depar_no = #{deparNo}
+			</if>
+		</where>
+	</update>
+
+	<select id="queryDeptmentLst" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.DeptmentPo">
+		SELECT depar_no deparNo, 
+			depar_nm deparNm, 
+			mnger_nm mngerNm, 
+			mnger_usrno mngerUsrNo, 
+			fdepar_no fDeparNo, 
+			depar_sts deparSts, 
+			depar_typ deparTyp, 
+			type_no typeNo, 
+			depar_desc deparDesc, 
+			order_num orderNum
+		FROM t_sys_deptment
+		<where>
+			<!-- <if test="deparNo != null">
+				AND FIND_IN_SET(depar_no, {call getDeparChildLst(#{deparNo,jdbcType=INTEGER,mode=IN})})
+			</if> -->
+		</where>
+		ORDER BY order_num ASC
+	</select>
+	
+	<select id="queryParentDeptment" parameterType="java.lang.Integer" resultType="com.ycs.sys.domain.po.DeptmentPo">
+		SELECT depar_no deparNo,
+			depar_nm deparNm,
+			depar_sts deparSts,
+			depar_desc deparDesc,
+			mnger_nm mngerNm,
+			mnger_usrno mngerUsrNo,
+			depar_typ deparTyp,
+			type_no typeNo,
+			fdepar_no fDeparNo
+		FROM t_sys_deptment
+		<where>
+			<if test="_parameter != null">
+				depar_no = #{deptmentNo}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+</mapper>

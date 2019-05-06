@@ -1,0 +1,98 @@
+.picking-cont{
+    padding: 20px 0;
+}
+.picking-top{
+    padding-top: 10px;
+}
+.margins-top{
+    margin-top: 10px;
+}
+.index-top{
+    border-bottom: 4px solid #ddd;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.index-exit{
+    padding: 10px;
+   cursor: pointer;
+}
+.row {
+    margin-right: 0px;
+    margin-left: 0px;
+}
+.picking-nav{
+    height: 100%;
+}
+.picking-nav a{
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    font-weight: bold;
+}
+.picking-boder{
+    border-left: 1px solid #ddd;
+}
+.picking-select{
+    height: 23px;
+    min-width: 70px;
+}
+/*拣货*/
+.sorting-nav{
+    padding: 10px 0;
+    width: 260px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+    margin: 10px 0;
+    cursor: pointer;
+}
+.sorting-nav h3{
+	font-weight: bold;
+}
+.sorting-nav p{
+	margin: 8px 0;
+	font-size: 12px;
+	width: 100%;
+	overflow:auto;
+	word-break:break-all;
+}
+.sorting-navin{
+    border: 1px solid #007AFF;
+}
+.sorting-info{
+    padding: 5px 0;
+}
+.sorting-info span{
+    margin-right: 10px;
+}
+/*翻页数字*/
+.swiper-slide{padding: 30px 5px 0 5px;}
+.swiper-pagination{top: 0;height: 20px;}
+.swiper-pagination-bullet {
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    line-height: 20px;
+    font-size: 12px;
+    color:#000;
+    opacity: 1;
+    background: rgba(0,0,0,0.2);
+}
+.swiper-pagination-bullet-active {
+    color:#fff;
+    background: #007aff;
+}
+/*适配*/
+@media only screen and (max-width: 1200px){
+    .picking-boder{border-left:none;}
+}
+@media only screen and (max-width:980px){
+    .picking-boder{border-top:1px solid #DDD;padding-top: 10px;}
+}
+/*信息数字标识*/
+.information {
+    position: relative;
+}
+.information .badge {
+    position: absolute;
+    top: -3px;
+    right: -12px;
+}

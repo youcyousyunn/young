@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.sys.dao.IDeptPostDao">
+	<select id="findDeptPost" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.DeptPostPo">
+	  	SELECT BEAR_ID bearId,
+			USR_NO usrNo,
+			USR_NM usrNm,
+			DEPAR_NO deparNo,
+			POST_ID postId,
+			POST_NM postNm,
+			IS_DEF_REVIEW isDefReview,
+			IS_PARTDEPT isPartDept,
+			IS_PARTPOST isPartPost,
+			STS sts
+		FROM t_sys_deptpost
+	  	<where>
+	  		<if test="deparNo != null">
+				and DEPAR_NO = #{deparNo}
+			</if>
+	  	</where>
+	  	GROUP BY POST_ID
+	</select>
+  
+	<select id="queryAuditor" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.DeptPostPo">
+		SELECT 
+			BEAR_ID bearId, 
+			USR_NO usrNo, 
+			USR_NM usrNm, 
+			DEPAR_NO deparNo, 
+			POST_ID postId, 
+			POST_NM postNm, 
+			IS_DEF_REVIEW isDefReview, 
+			IS_PARTDEPT isPartDept, 
+			IS_PARTPOST isPartPost, 
+			STS sts, 
+			UPD_DT updDt
+		FROM t_sys_deptpost
+		<where>
+			<if test="deparNo != null">
+				AND DEPAR_NO = #{deparNo}
+			</if>
+			<if test="postId != null">
+				AND POST_ID = #{postId}
+			</if>
+		</where>
+	</select>
+	
+
+
+
+
+
+</mapper>

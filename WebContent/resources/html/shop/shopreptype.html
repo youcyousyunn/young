@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>门店普通补货</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="../../css/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="../../css/animate.min.css" rel="stylesheet">
+    <link href="../../css/style.min.css?v=4.1.0" rel="stylesheet">
+    <link href="../../css/bootstrap-table/bootstrap-table.1.10.1.min.css" rel="stylesheet">
+    <link href="../../css/bootstrap-table/bootstrap-editable.css" rel="stylesheet">
+    <link href="../../css/autocomplete/autocomplete.min.css" rel="stylesheet">
+    <link href="../../css/toastr/toastr.css" rel="stylesheet">
+    <link href="../../css/inputbox/inputbox.css" rel="stylesheet">
+    <!--树形菜单-->
+    <link href="../../css/jstree/3.3.0/jstree.min.css" rel="stylesheet">
+    <link href="../../css/shop/shoprep.css" rel="stylesheet">
+    <script src="../../js/common/head.load.min.js"></script>
+</head>
+<style type="text/css">
+	.red{
+		color: red;
+		font-weight: bold;
+	}
+	.fixed-table-footer tr td,#ordrAddDiv .fixed-table-footer  tr td:last-child,#ordrAddDiv .fixed-table-footer tr td:nth-child(2){
+		display:none;
+	}
+	.fixed-table-footer tr td:nth-child(2),.fixed-table-footer tr td:last-child,#ordrAddDiv .fixed-table-footer  tr td:nth-child(3),#ordrAddDiv .fixed-table-footer  tr td:nth-last-child(2){
+		display:inline-block;
+		width:50%;
+		text-align:center;
+	}
+	.ibox-content~.layui-layer-page .layui-layer-content{overflow-y:hidden;}
+	#ordrAddDiv,#ordrAddDiv .fixed-table-container{height:100%;}
+	#ordrAddDiv form{
+		height:calc(100% - 35px);
+	}
+	#ordrAddDiv .bootstrap-table{height:calc(100% - 34px);}
+</style>
+<body >
+<div class="ibox-content">
+    <form class="form-horizontal" onkeydown="if(event.keyCode==13){return false;}">
+		<div class="row">
+		    <div class="col-md-3 type-trees">
+		    	<input type="hidden" value="0" id="product-type" />
+                <div id="product-type-tree" style="margin-top:15px; width:100%; "></div>   
+		    </div>
+		    <div class="col-md-9">
+                <label class="pull-left">
+                    <input class="form-control" id="shopNm" type="text" readonly="readonly" style="width:120px"/>
+                    <input id="prov" type="hidden"/>
+                    <input id="city" type="hidden"/>
+                    <input id="shopTyp" type="hidden"/>
+                    <input id="shopNo" type="hidden"/>
+                </label>
+                <input class="form-control pull-left" type="text" id="deliverTxt" readonly="readonly" style="width: 280px;color: #FF0000;font-weight: bold;">
+                <div style="margin-left: 10px;" class="pull-left">
+					<input class="form-control shop_ssw" type="text" id="rep_data1" placeholder="输入条码或商品名快速添加">
+				</div>
+		        <button type="button" class="btn btn-primary addBtn" style="float: right;">下单预览</button>
+                <div style="margin-top: 10px;" >
+                	<div class="heights" >
+                		<table id="ordrapply_table" data-mobile-responsive="true" data-show-columns="true" ></table>
+                	</div>
+                </div>
+		    </div>
+	    </div> 
+    </form>
+</div>
+
+<div class="ibox-content" id="ordrAddDiv" style="display: none;">
+	<form class="form-horizontal" onkeydown="if(event.keyCode==13){return false;}">
+		<div style="margin-bottom: 10px;">
+			<input class="form-control shop_ssw" type="text" id="rep_data" placeholder="输入条码或商品名快速添加">
+		</div>
+	    <table id="orderPost_table" data-mobile-responsive="true" data-show-columns="true" ></table>
+	</form>
+</div>
+<script src="../../js/jquery/jquery.min.js?v=2.1.4"></script>
+<script src="../../js/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+<script src="../../js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../../js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="../../js/plugins/layer/layer.js"></script>
+<script src="../../js/plugins/autocomplete/autocomplete.jquery.min.js"></script>
+<!--树形菜单-->
+<script src="../../js/plugins/jstree/3.3.0/jstree.min.js"></script>
+<script src="../../js/common/global.js"></script>
+<script type="text/javascript">
+    (function(g){
+          head.js(
+              g.httpYoungPath+"resources/js/common/common.js?v="+g.globalVersion,
+              g.httpYoungPath+"resources/js/shop/shopreptype.js?v="+g.globalVersion
+          );
+    }(global));
+</script>
+</body>
+</html>

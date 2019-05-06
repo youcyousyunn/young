@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>商品总库一览</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome.css" rel="stylesheet">
+    <link href="../../css/bootstrap-table/bootstrap-table.1.10.1.min.css" rel="stylesheet">
+    <link href="../../css/animate.min.css" rel="stylesheet">
+    <link href="../../css/style.css" rel="stylesheet">
+    <link href="../../css/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css" rel="stylesheet">
+    <link href="../../css/toastr/toastr.min.css" rel="stylesheet">
+    <link href="../../css/select2/select2.min.css" rel="stylesheet">
+	<link href="../../css/autocomplete/autocomplete.min.css" rel="stylesheet">
+    <script src="../../js/common/head.load.min.js"></script>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>商品总库一览</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="pull-left">
+                			<select id="city" ></select>
+                		</div>&nbsp;
+                        <button id="searchBtn" type="button" class="btn btn-sm btn-primary pull-right" onclick="searchBtn();">搜索</button>
+                    </div>
+                    <div class="ibox-content">
+                    	<div id="toolbar">
+                            <button id="products_download" type="button" class="btn btn-w-m  btn-sm btn-info" title="导出数据">
+                                <i class="glyphicon" aria-hidden="true"></i> 导出数据
+                            </button>
+                        </div>
+                        <table id="products_table" data-mobile-responsive="true"></table>
+                        <input type="hidden" id="search" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../js/jquery/jquery.min.js"></script>
+    <script src="../../js/bootstrap/bootstrap.min.js"></script>
+    <!-- 表格js -->
+    <script src="../../js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!-- 序列号表单JS -->
+    <script src="../../js/jquery/jquery.serializejson.min.js"></script>
+    <script src="../../js/plugins/toastr/toastr.min.js"></script>
+    <!-- layer -->
+    <script src="../../js/plugins/layer/layer.js"></script>
+    <!-- 树形菜单JS -->
+    <script src="../../js/plugins/nestable/jquery.nestable.js"></script>
+    <script src="../../js/jquery/jquery.validate.min.js"></script>
+    <script src="../../js/jquery/messages_zh.min.js"></script>
+    <script src="../../js/plugins/select2/select2.full.min.js"></script>
+    <script src="../../js/plugins/select2/local/select2_local_zh-CN.js"></script>
+    <script src="../../js/plugins/autocomplete/autocomplete.jquery.min.js"></script>
+    <script src="../../js/common/global.js"></script>
+    <script type="text/javascript">
+        (function(g){
+            head.js(
+                g.httpYoungPath+"resources/js/common/common.js?v="+g.globalVersion,
+                g.httpYoungPath+"resources/js/common/Base64.js?v="+g.globalVersion,
+                g.httpYoungPath+"resources/js/coo/productlst.js?v="+g.globalVersion,
+            );
+        }(global));
+    </script>
+</body>
+</html>

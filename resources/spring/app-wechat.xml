@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-4.1.xsd
+    http://www.springframework.org/schema/util
+    http://www.springframework.org/schema/util/spring-util-4.1.xsd">
+
+	<bean id="WxHiClientManager" class="com.ycs.work.wechat.WxHiClientManager">
+		<property name="clients">
+			<util:list value-type="com.ycs.work.wechat.itf.client.WxIClient">
+				<ref bean="TWX" />
+			</util:list>
+		</property>
+	</bean>
+	
+	<bean id="TWX" class="com.ycs.work.wechat.itf.client.impl.WxSynShortClient">
+		<property name="clientName" value="TWX" />
+		<property name="connectorFactory">
+			<bean id="c2ConnectorFactory" class="com.ycs.work.wechat.itf.connector.WxHttpConnectorFactory">
+				<property name="connTimeout" value="15000" />
+				<property name="timeout" value="15000" />
+				<property name="encoding" value="UTF-8" />
+			</bean>
+		</property>
+		<property name="convertor">
+			<bean id="c1Convertor" class="com.ycs.work.wechat.itf.convertor.impl.HiWxObjectConvertor">
+				<property name="encoding" value="UTF-8" />
+			</bean>
+		</property>
+		<property name="endPoints">
+			<util:map value-type="com.ycs.work.wechat.itf.ep.IEndPoint">
+				<entry key="sendwechatmsg">
+					<bean class="com.ycs.work.wechat.itf.ep.impl.HttpEndPoint">
+						<property name="url" value="http://m.justsend.cn/index.php/other/sendMsg4DT" />
+					</bean>
+				</entry>
+			</util:map>
+		</property>
+	</bean>
+</beans>

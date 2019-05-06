@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+    http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+
+	<rabbit:template id="amqpTemplate" connection-factory="rabbitmqConnectionFactory"
+		encoding="UTF-8" reply-timeout="15000" message-converter="rabbitmqJsonMessageConvertor" />
+
+    <rabbit:direct-exchange name="sysExg" declared-by="young">
+        <rabbit:bindings>
+            <rabbit:binding queue="sysQueue" key="sys" />
+        </rabbit:bindings>
+    </rabbit:direct-exchange>
+    
+	<rabbit:direct-exchange name="logExg" declared-by="young">
+		<rabbit:bindings>
+			<rabbit:binding queue="logQueue" key="log" />
+		</rabbit:bindings>
+	</rabbit:direct-exchange>
+
+</beans>

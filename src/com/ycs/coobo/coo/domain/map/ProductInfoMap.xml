@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.coobo.coo.dao.IProductDao">
+  <select id="qryProductlstCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT COUNT(1) FROM t_coo_product a
+  	INNER JOIN t_coo_whsleprice b on b.BAR_CODE = a.BAR_CODE
+  	INNER JOIN t_coo_suppliprice c on c.BAR_CODE = a.BAR_CODE
+  	INNER JOIN t_coo_suppliers d on d.SUPPLI_NO = c.SUPPLI_NO
+  	INNER JOIN t_coo_productyp e on e.CLASS_ID = a.CLASS_ID
+  	INNER JOIN t_coo_prdcity f on a.BAR_CODE = f.BAR_CODE
+  	<where>
+  		<if test="city != null">
+  			and b.CITY = #{city}
+  			and c.CITY = #{city}
+  			and f.CITY = #{city}
+  		</if>
+  		<if test="search != null">
+  			and (a.BAR_CODE LIKE <![CDATA['%${search}%']]> OR a.PRD_NM LIKE <![CDATA['%${search}%']]>)
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="qryProductlst" parameterType="java.util.Map" resultType="com.ycs.coobo.coo.domain.po.ProductPo">
+  	SELECT 
+		a.PRD_NM prdNm,
+		a.BAR_CODE barCode, 
+		b.WHSLE_TYP whlseType,
+		a.WHSLE_SPEC whsleSpec,
+		b.WHSLE_PRICE whslePrice,
+		a.SOURC_SPEC sourcSpec,
+		c.SUPPLI_PRICE sourcPrice,
+		d.SUPPLI_NM suppliNm,
+		d.SUPPLI_NO suppliNo
+	FROM t_coo_product a
+	INNER JOIN t_coo_whsleprice b on b.BAR_CODE = a.BAR_CODE
+  	INNER JOIN t_coo_suppliprice c on c.BAR_CODE = a.BAR_CODE
+  	INNER JOIN t_coo_suppliers d on d.SUPPLI_NO = c.SUPPLI_NO
+  	INNER JOIN t_coo_productyp e on e.CLASS_ID = a.CLASS_ID
+  	INNER JOIN t_coo_prdcity f on a.BAR_CODE = f.BAR_CODE
+  	<where>
+  		<if test="city != null">
+  			and b.CITY = #{city}
+  			and c.CITY = #{city}
+  			and f.CITY = #{city}
+  		</if>
+  		<if test="search != null">
+  			and (a.BAR_CODE LIKE <![CDATA['%${search}%']]> OR a.PRD_NM LIKE <![CDATA['%${search}%']]>)
+  		</if>
+  	</where>
+  	ORDER BY a.BAR_CODE ASC, a.CLASS_ID ASC
+  	LIMIT #{startRow}, #{offset}
+  </select>
+  
+  <select id="qryAllProductLst" parameterType="java.util.Map" resultType="com.ycs.coobo.coo.domain.po.ProductPo">
+  	SELECT 
+		a.PRD_NM prdNm,
+		a.BAR_CODE barCode, 
+		b.WHSLE_TYP whlseType,
+		a.WHSLE_SPEC whsleSpec,
+		b.WHSLE_PRICE whslePrice,
+		a.SOURC_SPEC sourcSpec,
+		c.SUPPLI_PRICE sourcPrice,
+		d.SUPPLI_NM suppliNm,
+		d.SUPPLI_NO suppliNo
+	FROM t_coo_product a
+	INNER JOIN t_coo_whsleprice b on b.BAR_CODE = a.BAR_CODE
+  	INNER JOIN t_coo_suppliprice c on c.BAR_CODE = a.BAR_CODE
+  	INNER JOIN t_coo_suppliers d on d.SUPPLI_NO = c.SUPPLI_NO
+  	INNER JOIN t_coo_productyp e on e.CLASS_ID = a.CLASS_ID
+  	INNER JOIN t_coo_prdcity f on a.BAR_CODE = f.BAR_CODE
+  	<where>
+  		<if test="city != null">
+  			and b.CITY = #{city}
+  			and c.CITY = #{city}
+  			and f.CITY = #{city}
+  		</if>
+  		<if test="search != null">
+  			and (a.BAR_CODE LIKE <![CDATA['%${search}%']]> OR a.PRD_NM LIKE <![CDATA['%${search}%']]>)
+  		</if>
+  	</where>
+  	ORDER BY a.BAR_CODE ASC, a.CLASS_ID ASC
+  </select>
+  
+  <select id="countProductTypeNum" parameterType="java.util.Map" resultType="java.util.Map">
+  	SELECT 
+  		p.CLASS_ID classId,
+  		COUNT(p.CLASS_ID) count
+  	FROM t_coo_product p
+  	INNER JOIN t_coo_prdcity c ON p.bar_code = c.bar_code
+  	INNER JOIN t_coo_productyp t ON p.class_id = t.class_id
+  	<where>
+  		<if test="prov != null">
+  			AND c.prov = #{prov}
+  		</if>
+  		<if test="city != null">
+  			AND c.city = #{city}
+  		</if>
+  		<if	test="statuses != null">
+			AND c.up_sts IN
+			<foreach collection="statuses" item="status" index="index" open="(" close=")" separator=",">
+				#{status}
+			</foreach>
+		</if>
+		<if	test="statuses != null">
+			AND p.prd_sts IN
+			<foreach collection="statuses" item="status" index="index" open="(" close=")" separator=",">
+				#{status}
+			</foreach>
+		</if>
+  	</where>
+  	GROUP BY p.class_id
+  </select>
+  
+  <select id="qryProductsByCodeLst" parameterType="java.util.List" resultType="com.ycs.coobo.coo.domain.po.ProductPo">
+  	SELECT 
+		bar_code barCode, 
+		class_id classId, 
+		prd_img prdImg, 
+		prd_nm prdNm,
+		brand_no brandNo, 
+		brand_nm brandNm, 
+		prd_code prdCode, 
+		expday expDay, 
+		prd_desc prdDesc, 
+		prd_sts prdSts, 
+		sourc_spec sourcSpec, 
+		sourc_unit sourcUnit, 
+		sourc_whd sourcWhd, 
+		sourc_price sourcPrice,
+		sourc_wght sourcWght, 
+		sourc_cnt sourcCnt, 
+		whsle_spec whsleSpec, 
+		whsle_unit whsleUnit, 
+		whsle_whd whsleWhd, 
+		whsle_price whslePrice, 
+		whsle_wght whsleWght, 
+		whsle_cnt whsleCnt, 
+		logis_cnt logisCnt,
+		logis_spec logisSpec, 
+		logis_unit logisUnit, 
+		logis_whd logisWhd, 
+		logis_wght logisWght, 
+		pos_cnt posCnt, 
+		pos_spec posSpec, 
+		pos_unit posUnit, 
+		pos_whd posWhd, 
+		pos_wght posWght,
+		retail_price retailPrice, 
+		is_apart isApart,
+		taxes taxes, 
+		cre_dt, 
+		upd_dt
+	FROM t_coo_product
+  	<where>
+  		<if test="list != null">
+  		    <if test="list.size() > 0">
+  		        AND bar_code IN
+	            <foreach collection="list" item="barCode" index="index" open="(" close=")" separator=",">
+	                #{barCode}
+	            </foreach>
+  		    </if>
+  		</if>
+  	</where>
+  </select>
+  
+  
+  
+  
+</mapper>

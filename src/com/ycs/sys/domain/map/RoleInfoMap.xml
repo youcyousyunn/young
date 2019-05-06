@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.sys.dao.IRoleDao">
+	<insert id="addRole" parameterType="com.ycs.sys.domain.po.RolePo">
+		INSERT INTO t_sys_role (role_no, 
+			role_sts, 
+			role_nm, 
+			role_desc, 
+			cre_dt
+		)
+		values(
+			#{roleNo,jdbcType=VARCHAR}, 
+	  		#{roleSts,jdbcType=VARCHAR},
+	  		#{roleNm,jdbcType=VARCHAR},
+	  		#{roleDesc,jdbcType=VARCHAR},
+	  		#{creDt,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert	id="addUserRoles" parameterType="java.util.List">
+		INSERT INTO t_sys_usr_role (
+			usr_no, role_no
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.usrNo, jdbcType=VARCHAR}, #{item.roleNo, jdbcType=VARCHAR})
+		</foreach>
+	</insert>
+
+	<delete id="deleteRoles" parameterType="java.util.List">
+		DELETE FROM t_sys_role
+		<where>
+			<if	test="list != null">
+				AND role_no IN
+				<foreach collection="list" item="roleNo" index="index" open="(" close=")" separator=",">
+					#{roleNo}
+				</foreach>
+			</if>
+		</where>
+	</delete>
+	
+	<delete id="deleteUserRole" parameterType="java.lang.String">
+		DELETE FROM t_sys_usr_role
+		<where>
+			<if test="_parameter != null">
+				usr_no = #{usrNo}
+			</if>
+		</where>
+	</delete>
+
+	<update id="updateRole" parameterType="com.ycs.sys.domain.po.RolePo">
+		update t_sys_role 
+		<set>
+			<if test="roleNo != null">
+				ROLE_NO = #{roleNo},
+			</if>
+			<if test="roleSts != null">
+				ROLE_STS = #{roleSts},
+			</if>
+			<if test="roleNm != null">
+				ROLE_NM = #{roleNm},
+			</if>
+			<if test="roleDesc != null">
+				ROLE_DESC = #{roleDesc}
+			</if>
+		</set>
+		<where>
+			<if test="roleNo != null">
+				ROLE_NO = #{roleNo}
+			</if>
+		</where>
+	</update>
+	
+	<resultMap type="java.util.HashMap" id="getUserRoles">
+		<result property="roleNo" column="role_no"></result>
+	</resultMap>
+	<select id="queryUserRoles" parameterType="map" resultType="map">
+		SELECT t.ROLE_NO roleNo FROM t_sys_usr_role t
+		<where>
+	    	<if test="usrNo != null">
+	    		and t.usr_no = #{usrNo}
+	    	</if>
+    	</where>
+	</select>
+	
+	<select id="getCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT count(1) FROM t_sys_role 
+		<where>
+			<if test="roleNo != null">
+				role_no = #{roleNo}
+			</if>
+			<if test="status != null">
+				role_sts = #{status}
+			</if>
+			<if test="name != null">
+				role_nm = #{name}
+			</if>
+			<if test="createDate != null">
+				cre_dt = #{createDate}
+			</if>
+			<if test="search != null">
+				role_nm LIKE <![CDATA['%${search}%']]> OR role_no LIKE <![CDATA['%${search}%']]>
+			</if>
+		</where>
+	</select>
+	
+	<select id="pageQuery" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.RolePo">
+		SELECT role_no roleNo, 
+			role_sts roleSts, 
+			role_nm roleNm, 
+			role_desc roleDesc, 
+			cre_dt creDt 
+			FROM t_sys_role
+		<where>
+			<if test="roleNo != null">
+				role_no LIKE <![CDATA['%${roleNo}%']]>
+			</if>
+			<if test="status != null">
+				role_sts = #{status}
+			</if>
+			<if test="roleNm != null">
+				role_nm = LIKE <![CDATA['%${roleNm}%']]>
+			</if>
+			<if test="search != null and search != ''">
+				role_nm LIKE <![CDATA['%${search}%']]> OR role_no LIKE <![CDATA['%${search}%']]>
+			</if>
+			<if test="roleDesc != null">
+				role_desc = #{roleDesc}
+			</if>
+			<if test="creDt != null">
+				cre_dt = #{creDt}
+			</if>
+		</where>
+		ORDER BY ${sort} ${sortName}
+		LIMIT ${row}, ${offset}
+	</select>
+	
+	<select id="queryRole" resultType="com.ycs.sys.domain.po.RolePo">
+		SELECT role_no roleNo, 
+			role_sts roleSts, 
+			role_nm roleNm, 
+			role_desc roleDesc, 
+			cre_dt creDt 
+			FROM t_sys_role
+		<where>
+			<if test="_parameter != null">
+				role_no = #{roleNo}
+			</if>
+		</where>
+	</select>
+	
+	<select id="queryRoles" resultType="com.ycs.sys.domain.po.RolePo">
+		SELECT role_no roleNo, 
+			role_sts roleSts, 
+			role_nm roleNm, 
+			role_desc roleDesc, 
+			cre_dt creDt 
+			FROM t_sys_role
+		<where>
+		</where>
+	</select>
+	
+	<select id="queryRolesByUsrNo" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.RolePo">
+		SELECT r.role_no roleNo, 
+			r.role_sts roleSts, 
+			r.role_nm roleNm, 
+			r.role_desc roleDesc
+			FROM t_sys_role r
+			INNER JOIN t_sys_usr_role ur ON ur.role_no = r.role_no
+		<where>
+			<if test="usrNo != null">
+				ur.usr_no = #{usrNo}
+			</if>
+		</where>
+	</select>
+	
+	<select id="queryUserRole" parameterType="java.util.List" resultType="java.lang.String">
+		SELECT role_no FROM t_sys_usr_role
+		<where>
+			<if	test="list != null">
+				AND role_no IN
+				<foreach collection="list" item="roleNo" index="index" open="(" close=")" separator=",">
+					#{roleNo}
+				</foreach>
+			</if>
+		</where>
+		GROUP BY role_no
+		HAVING COUNT(role_no) > 0
+	</select>
+	
+	<select id="queryRoleExists" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT count(role_no) FROM t_sys_role
+		<where>
+			<if test="roleNo != null">
+				AND role_no = #{roleNo}
+			</if>
+		</where>
+	</select>
+	
+	
+	
+	
+	
+	
+
+
+</mapper>

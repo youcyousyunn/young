@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.coobo.shop.dao.ShopMngDao">
+	<select id="qryShopInfoByUsrNo" resultType="com.ycs.coobo.shop.domain.po.ShopPo">
+		SELECT
+			A.SHOP_NO shopNo,
+			A.STOH_NO stohNo,
+			D.STOH_NM stohNm,
+			A.COTLD_NO cotldNo,
+			C.COTLD_NM cotldNm,
+			A.SHOP_CODE shopCode,
+			A.SHOP_NM shopNm,
+			A.SHOP_TYPE shopType,
+			A.SHOP_STS shopSts,
+			A.MNGER mnger,
+			A.MNG_USRNO mngUsrNo,
+			A.SHOP_TEL shopTel,
+			A.PROV prov,
+			A.CITY city,
+			A.DISTRICT district,
+			A.STREET street,
+			A.HOSENO hoseNo,
+			A.BUILDING building,
+			A.BALCONY balcony,
+			A.FLOOR floor,
+			A.ROOMNO roomNo,
+			A.ACREAGE acreage,
+			A.DIST_AMT distAmt,
+			A.LNG_UDE lngUde,
+			A.LAT_UDE latUde,
+			A.ISCARPORT isCarport,
+			A.ACPFLOOR acpfloor,
+			A.CRE_DT creDt
+			FROM T_COO_SHOP A, T_SYS_USERINFO B, T_COO_COTLD C, T_COO_STOHOSE D
+		<where>
+			A.SHOP_STS='0' 
+			AND A.MNG_USRNO=B.USR_NO 
+			AND A.STOH_NO=D.STOH_NO 
+			AND A.COTLD_NO=C.COTLD_NO 
+			<if test="_parameter != null">
+				AND A.MNG_USRNO = #{usrNo}
+			</if>
+		</where>
+	</select>	
+	
+	<select id="qryShopOrderPlan" resultType="com.ycs.coobo.shop.domain.po.ShopOrdrPlanPo">
+        SELECT
+            a.SHOP_NO shopNo,
+            b.SHOP_NM shopNm,
+            a.NORMAL_PLAN normalPlan,
+            a.MATER_PLAN materPlan,
+            a.CRE_DT creDt
+        FROM t_coo_ordrplan A
+        INNER JOIN t_coo_shop B ON B.SHOP_NO = A.SHOP_NO
+        <where>
+            <if test="_parameter != null">
+                AND A.SHOP_NO = #{shopNo}
+            </if>
+        </where>
+    </select>
+	
+	
+
+
+</mapper>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="expires" content="0">
+<title>数据权限</title>
+<link rel="shortcut icon" href="favicon.ico">
+<link href="../../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+<link href="../../css/font-awesome.css" rel="stylesheet">
+<link href="../../css/bootstrap-table/bootstrap-table.1.10.1.min.css" rel="stylesheet">
+<link href="../../css/animate.min.css" rel="stylesheet">
+<link href="../../css/style.css" rel="stylesheet">
+<link href="../../css/select2/select2.min.css" rel="stylesheet">
+<script src="../../js/common/head.load.min.js"></script>
+</head>
+  <body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>数据权限配置</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div id="toolbar">
+                            <button id="add-dataauth" type="button" class="btn btn-primary btn-sm" title="添加授权">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 添加授权
+                            </button>
+                            <button id="del-dataauth" type="button" class="btn btn-danger btn-sm" title="删除授权">
+                                <i class="glyphicon glyphicon-trash" aria-hidden="true"></i> 删除授权
+                            </button>
+                        </div>
+                        <table id="dataauth_table" data-mobile-responsive="true"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../js/jquery/jquery.min.js"></script>
+    <script src="../../js/bootstrap/bootstrap.min.js"></script>
+    <!-- 表格js -->
+    <script src="../../js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!-- 下拉列表工具 -->
+    <script src="../../js/plugins/select2/select2.full.min.js"></script>
+    <script src="../../js/plugins/select2/local/select2_local_zh-CN.js"></script>
+    <!-- layer -->
+    <script src="../../js/plugins/layer/layer.js"></script>
+    <script src="../../js/common/global.js"></script>
+    <!-- 自动补全 -->
+    <script src="../../js/plugins/bootstrap-suggest/bootstrap-suggest.js"></script>
+    <script type="text/javascript">
+        (function(g) {
+            head.js(
+                g.httpYoungPath + "resources/js/common/common.js?v="+ g.globalVersion, 
+                g.httpYoungPath+ "resources/js/admin/dataauth.js?v="+ g.globalVersion
+            );
+        }(global));
+    </script>
+</body>
+</html>

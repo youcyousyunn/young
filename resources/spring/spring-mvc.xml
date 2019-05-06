@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:context="http://www.springframework.org/schema/context"           
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p"   
+	xmlns:task="http://www.springframework.org/schema/task"   
+	xmlns:websocket="http://www.springframework.org/schema/websocket"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans                           
+	  http://www.springframework.org/schema/beans/spring-beans-4.1.xsd      
+	  http://www.springframework.org/schema/context
+	  http://www.springframework.org/schema/context/spring-context-4.1.xsd
+	  http://www.springframework.org/schema/mvc
+	  http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd
+	  http://www.springframework.org/schema/websocket   
+	  http://www.springframework.org/schema/websocket/spring-websocket-4.0.xsd            
+	  http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+	<!-- 自动扫描包 -->
+	<context:component-scan base-package="com.ycs.**.controller"/>
+
+    <!-- 视图解析器(将逻辑视图转换为物理视图) -->
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/resources/html/"></property>                                     
+        <property name="suffix" value=".html"></property>                                              
+    </bean>
+	
+	<!-- 静态资源默认servlet处理器 -->
+	<mvc:default-servlet-handler />
+	
+	<!-- WebSocket处理器 -->
+	<bean id="systemWebSocketHandler" class="com.ycs.base.spring.handler.SystemWebSocketHandler"/>
+    <websocket:handlers>
+        <websocket:mapping path="/ws/ws.do" handler="systemWebSocketHandler"/>
+        <websocket:handshake-interceptors>
+        	<bean class="com.ycs.base.spring.interceptor.HiWebSocketInterceptor"></bean>
+        </websocket:handshake-interceptors>
+    </websocket:handlers>
+	
+	<!-- 访问静态资源文件(spring3.0.4以后版本提供了mvc:resources==激活Tomcat的defaultServlet) -->
+	<mvc:resources location="/css/" mapping="/css/**"/>
+	<mvc:resources location="/js/" mapping="/js/**"/>
+	<mvc:resources location="/img/" mapping="/img/**"/>
+	<mvc:resources location="/ico/" mapping="/ico/**"/>
+	
+	<!-- spring拦截器 -->
+	<mvc:interceptors>
+	   <!-- 客户端数据接口 -->
+	   <mvc:interceptor>
+            <mvc:mapping path="/**/*.do" />
+            <bean class="com.ycs.base.spring.interceptor.HiCommonInterceptor">
+                <property name="logger" value="HiITFLogger" />
+            </bean>
+       </mvc:interceptor>
+       <mvc:interceptor>
+            <mvc:mapping path="/**/*.do" />
+            <bean class="com.ycs.base.spring.interceptor.HiChannelSetInterceptor">
+                <property name="sysCnl" value="APP" />
+            </bean>
+       </mvc:interceptor>
+	   <mvc:interceptor>
+	       <mvc:mapping path="/**/*.do"/>
+	       <bean class="com.ycs.base.spring.interceptor.HiTxAuthInterceptor">
+	           <property name="logger" value="HiITFLogger" />
+	       </bean>
+	   </mvc:interceptor>
+	   
+	   <!-- web页面拦截器 -->
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.xhtml" />
+            <bean class="com.ycs.base.spring.interceptor.HiCommonInterceptor">
+                <property name="logger" value="HiWebLogger" />
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.xhtml" />
+            <bean class="com.ycs.base.spring.interceptor.HiChannelSetInterceptor">
+                <property name="sysCnl" value="WEB" />
+            </bean>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**/*.xhtml" />
+            <bean class="com.ycs.base.spring.interceptor.HiTxAuthInterceptor">
+                <property name="logger" value="HiWebLogger" />
+            </bean>
+        </mvc:interceptor>
+	</mvc:interceptors>
+		
+    <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <ref bean="mappingJacksonHttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+
+    <bean id="mappingJacksonHttpMessageConverter"
+        class="com.ycs.base.spring.converter.HiMappingJacksonHttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="text" />
+                    <constructor-arg index="1" value="plain" />
+                    <constructor-arg index="2" value="UTF-8" />
+                </bean>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="*" />
+                    <constructor-arg index="1" value="*" />
+                    <constructor-arg index="2" value="UTF-8" />
+                </bean>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="text" />
+                    <constructor-arg index="1" value="*" />
+                    <constructor-arg index="2" value="UTF-8" />
+                </bean>
+                <bean class="org.springframework.http.MediaType">
+                    <constructor-arg index="0" value="application" />
+                    <constructor-arg index="1" value="json" />
+                    <constructor-arg index="2" value="UTF-8" />
+                </bean>
+            </list>
+        </property>
+        <property name="requestConvInterceptors">
+            <list>
+                <bean class="com.ycs.base.spring.converter.interceptor.impl.RequestDecodeInterceptor" />
+                <bean class="com.ycs.base.spring.converter.interceptor.impl.RequestInfoInterceptor" />
+            </list>
+        </property>
+        <property name="responseConvInterceptors">
+            <list>
+                <bean class="com.ycs.base.spring.converter.interceptor.impl.MsgProcRspConvInterceptor" />
+            </list>
+        </property>
+    </bean>
+    
+    <!--默认的mvc注解映射的支持 -->
+    <mvc:annotation-driven />
+
+    <!-- 支持异步方法执行 -->
+    <task:annotation-driven />
+    
+    <!-- 总错误处理 -->
+    <bean id="exceptionResolver" class="com.ycs.base.spring.handler.HiExceptionHandler">
+        <property name="defaultErrorView">
+            <value>/hiexception-error.jsp</value>
+        </property>
+    </bean>
+</beans>

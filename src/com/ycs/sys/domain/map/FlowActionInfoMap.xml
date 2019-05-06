@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.sys.dao.FlowDao">
+	<update id="updFlowAction" parameterType="java.util.Map">
+		UPDATE T_CMM_FLOWACTION
+		<set>
+			<if test="deparNo != null">
+				DEPAR_NO = #{deparNo},
+			</if>
+			<if test="postId != null">
+				POST_ID = #{postId}
+			</if>
+		</set>
+		<where>
+			<if test="actionNo != null">
+				and ACTION_NO = #{actionNo}
+			</if>	
+			<if test="nodeNo != null">
+				and NODE_NO = #{nodeNo}
+			</if>	
+		</where>
+	</update>
+
+	<select id="qryFlowActionLstCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM T_CMM_FLOWACTION
+		<where>
+			<if test="actionNm != null">
+				and ACTION_NM LIKE <![CDATA['%${actionNm}%']]> 
+			</if>
+		</where>
+	</select>
+	
+	<select id="qryFlowActionLst" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.FlowActionPo">
+	  	SELECT
+			ACTION_NO actionNo,
+			NODE_NO nodeNo,
+			SERVER server,
+			METHOD method,
+			ACTION_NM actionNm,
+			UP_STEP upStep,
+			DOWN_STEP downStep,
+			A.DEPAR_NO deparNo,
+			(SELECT DEPAR_NM FROM T_SYS_DEPTMENT B WHERE A.DEPAR_NO=B.DEPAR_NO) deparNm,
+			A.POST_ID postId,
+			(SELECT POST_NM FROM T_SYS_POSTS C WHERE A.POST_ID=C.POST_ID) postNm,
+			ABREAST abreast
+			FROM T_CMM_FLOWACTION A
+	  	<where>
+	  		<if test="actionNm != null">
+				and ACTION_NM LIKE <![CDATA['%${actionNm}%']]> 
+			</if>
+	  	</where>
+	  	LIMIT #{startRow}, #{offset}
+	</select>
+  
+	<select id="queryFlowInfo" parameterType="java.lang.String" resultType="java.util.Map">
+  		SELECT 
+		  	FLOW_NO flowNo,
+		  	FLOW_NM flowNm,
+		  	FLOW_DESC flowDesc,
+		  	ACTION_NO actionNo,
+		  	FLOW_TYP flowTyp,
+		  	ATTACH attach,
+		  	STA_NODE staNode,
+		  	END_NODE endNode,
+		  	FLOW_STS flowSts,
+		  	CRE_DT creDt,
+		  	UPD_DT updDt,
+		  	UPD_DESC updDesc 
+  		FROM T_CMM_FLOWINFO 
+	  	<where>
+	  		<if test="_parameter != null">
+	  			FLOW_NO = #{flowNo}
+	  		</if>
+	  	</where>
+	</select>
+	
+	<select id="queryFlowAction" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.FlowActionPo">
+		SELECT 
+			ACTION_NO actionNo, 
+			NODE_NO nodeNo, 
+			SERVER server, 
+			METHOD method, 
+			ACTION_NM actionNm, 
+			UP_STEP upStep, 
+			DOWN_STEP downStep, 
+			A.DEPAR_NO deparNo, 
+			(SELECT DEPAR_NM FROM T_SYS_DEPTMENT B WHERE A.DEPAR_NO=B.DEPAR_NO) deparNm, 
+			A.POST_ID postId, 
+			(SELECT POST_NM FROM T_SYS_POSTS C WHERE A.POST_ID=C.POST_ID) postNm,
+			ABREAST abreast
+		FROM T_CMM_FLOWACTION A
+		<where>
+			<if test="actionNo != null">
+				AND ACTION_NO = #{actionNo}
+			</if>
+			<if test="nodeNo != null">
+				AND NODE_NO = #{nodeNo}
+			</if>
+		</where>
+	</select>
+  
+	<insert id="addFlowOrd" parameterType="java.util.Map">
+		INSERT INTO T_CMM_FLOWORD(
+			FLOW_ORD, 
+			ORD_NO, 
+			FLOW_STS, 
+			TX_DT, 
+			TX_TM, 
+			EXP_DT, 
+			EXP_TM, 
+			ACTION_STEP, 
+			DOWN_STEP, 
+			SEND_CNL, 
+			ACCP_CNL, 
+			LUNCH_USRNO, 
+			RECEV_USRNO, 
+			FLOW_NO, 
+			FLOW_ACTION) 
+		VALUES (
+			#{flowOrd,jdbcType=VARCHAR}, 
+			#{ordNo,jdbcType=VARCHAR}, 
+			#{flowSts,jdbcType=VARCHAR}, 
+			#{txDt,jdbcType=VARCHAR}, 
+			#{txTm,jdbcType=VARCHAR}, 
+			#{expDt,jdbcType=VARCHAR}, 
+			#{expTm,jdbcType=VARCHAR}, 
+			#{actionStep,jdbcType=VARCHAR}, 
+			#{downStep,jdbcType=VARCHAR}, 
+			#{sendCnl,jdbcType=VARCHAR}, 
+			#{accpCnl,jdbcType=VARCHAR}, 
+			#{lunchUsrNo,jdbcType=VARCHAR}, 
+			#{recevUsrNo,jdbcType=VARCHAR}, 
+			#{flowNo,jdbcType=VARCHAR}, 
+			#{flowAction,jdbcType=VARCHAR}
+		)
+	</insert>
+
+	<insert id="addFlowJrn" parameterType="java.util.Map">
+		INSERT INTO T_CMM_FLOWJRN (
+			JRN_NO, 
+			TX_DT, 
+			TX_TM, 
+			TX_STS, 
+			FLOW_ORD, 
+			ORD_NO, 
+			NODE_NO, 
+			UP_STEP, 
+			DOWN_STEP, 
+			TX_USRNO, 
+			TX_DEPARNO, 
+			TX_TYPE, 
+			TX_COENT)
+		VALUES (
+			#{jrnNo,jdbcType=VARCHAR}, 
+			#{txDt,jdbcType=VARCHAR}, 
+			#{txTm,jdbcType=VARCHAR}, 
+			#{txSts,jdbcType=VARCHAR}, 
+			#{flowOrd,jdbcType=VARCHAR}, 
+			#{ordNo,jdbcType=VARCHAR}, 
+			#{nodeNo,jdbcType=VARCHAR}, 
+			#{upStep,jdbcType=VARCHAR}, 
+			#{downStep,jdbcType=VARCHAR}, 
+			#{txUsrNo,jdbcType=VARCHAR}, 
+			#{txDeparNo,jdbcType=VARCHAR}, 
+			#{txType,jdbcType=VARCHAR},
+			#{txCoent,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<select id="queryFlowJrn" parameterType="java.util.Map" resultType="java.util.Map">
+		SELECT 
+			JRN_NO jrnNo,
+			TX_DT txDt,
+			TX_TM txTm,
+			FLOW_ORD flowOrd,
+			ORD_NO ordNo,
+			NODE_NO nodeNo,
+			UP_STEP upStep,
+			DOWN_STEP downStep,
+			TX_STS txSts,
+			TX_USRNO txUsrNo,
+			B.USR_NM txUsrNm,
+			TX_DEPARNO txDeparNo,
+			TX_TYPE txType,
+			TX_COENT txCoent 
+		FROM T_CMM_FLOWJRN A
+		INNER JOIN T_SYS_USERINFO B ON B.USR_NO=A.TX_USRNO
+		<where>
+			<if test="jrnNo != null">
+				AND A.JRN_NO = #{jrnNo}
+			</if>
+		</where>
+	</select>
+	
+	<update id="updateFlowOrdRecevUsr" parameterType="java.util.Map">
+		UPDATE T_CMM_FLOWORD 
+		<set>
+			<if test="recevUsrNo != null">
+				RECEV_USRNO = #{recevUsrNo}
+			</if>
+		</set>
+		<where>
+			<if test="flowOrdNo != null">
+				AND FLOW_ORD = #{flowOrdNo}
+			</if>
+		</where>
+	</update>
+	
+	<select id="queryFlowOrdByOrdNo" parameterType="java.util.Map" resultType="com.ycs.work.domain.po.FlowOrdPo">
+       SELECT FLOW_ORD flowOrd,
+        ORD_NO ordNo,
+        TX_DT txDt,
+        TX_TM txTm,
+        EXP_DT expDt,
+        EXP_TM expTm,
+        ACTION_STEP actionStep,
+        DOWN_STEP downStep,
+        SEND_CNL sendCnl,
+        ACCP_CNL accpCnl,
+        FLOW_STS flowSts,
+        LUNCH_USRNO lunchUsrNo,
+        RECEV_USRNO recevUsrNo,
+        END_DT endDt,
+        END_TM endTm,
+        IS_FOLLOW isFollow,
+        FLOW_NO flowNo,
+        FLOW_ACTION flowAction
+       FROM T_CMM_FLOWORD
+       <where>
+           <if test="ordNo != null">
+               AND ORD_NO = #{ordNo}
+           </if>
+           <if test="ordSts != null">
+               AND FLOW_STS = #{ordSts}
+           </if>
+       </where>
+    </select>
+	
+	<select id="queryFlowOrd" parameterType="java.lang.String" resultType="com.ycs.work.domain.po.FlowOrdPo">
+	   SELECT 
+	    FLOW_ORD flowOrd,
+		ORD_NO ordNo,
+		TX_DT txDt,
+		TX_TM txTm,
+		EXP_DT expDt,
+		EXP_TM expTm,
+		ACTION_STEP actionStep,
+		DOWN_STEP downStep,
+		SEND_CNL sendCnl,
+		ACCP_CNL accpCnl,
+		FLOW_STS flowSts,
+		LUNCH_USRNO lunchUsrNo,
+		RECEV_USRNO recevUsrNo,
+		END_DT endDt,
+		END_TM endTm,
+		IS_FOLLOW isFollow,
+		FLOW_NO flowNo,
+		FLOW_ACTION flowAction
+	   FROM T_CMM_FLOWORD
+	   <where>
+	       <if test="_parameter != null">
+	           FLOW_ORD = #{flowOrdNo}
+	       </if>
+	   </where>
+	</select>
+	
+	<select id="qryFlowJrnLst" parameterType="java.util.Map" resultType="com.ycs.work.domain.po.FlowJrnPo">
+        SELECT 
+            JRN_NO jrnNo,
+            TX_DT txDt,
+            TX_TM txTm,
+            FLOW_ORD flowOrd,
+            ORD_NO ordNo,
+            NODE_NO nodeNo,
+            UP_STEP upStep,
+            DOWN_STEP downStep,
+            TX_STS txSts,
+            TX_USRNO txUsrNo,
+            B.USR_NM txUsrNm,
+            TX_DEPARNO txDeparNo,
+            TX_TYPE txType,
+            TX_COENT txCoent 
+        FROM T_CMM_FLOWJRN A
+        INNER JOIN T_SYS_USERINFO B ON B.USR_NO=A.TX_USRNO
+        <where>
+            <if test="flowOrd != null">
+                AND A.FLOW_ORD = #{flowOrd}
+            </if>
+            <if test="ordNo != null">
+                AND A.ORD_NO = #{ordNo}
+            </if>
+            <if test="jrnNo != null">
+                AND A.JRN_NO = #{jrnNo}
+            </if>
+        </where>
+    </select>
+    
+    <update id="updFlowOrdStep" parameterType="java.util.Map">
+        UPDATE T_CMM_FLOWORD
+        <set>
+            <if test="actionStep != null">
+                ACTION_STEP = #{actionStep},
+            </if>
+            <if test="downStep != null">
+                DOWN_STEP = #{downStep}
+            </if>
+        </set>
+        <where>
+            <if test="flowOrdNo != null">
+                FLOW_ORD = #{flowOrdNo}
+            </if>
+        </where>
+    </update>
+    
+    <update id="updFlowJrnSts" parameterType="java.util.Map">
+        UPDATE T_CMM_FLOWJRN
+        <set>
+            <if test="flowJrnSts != null">
+                TX_STS = #{flowJrnSts}
+            </if>
+        </set>
+        <where>
+            <if test="flowJrnNo != null">
+               JRN_NO = #{flowJrnNo}
+            </if>
+        </where>
+    </update>
+    
+    <update id="updFlowOrdSts" parameterType="java.util.Map">
+        UPDATE T_CMM_FLOWORD
+        <set>
+            <if test="flowSts != null">
+                FLOW_STS = #{flowSts},
+            </if>
+            <if test="isEnd">
+                END_DT = #{endDt},
+                END_TM = #{endTm}
+            </if>
+        </set>
+        <where>
+            <if test="flowOrdNo != null">
+                FLOW_ORD = #{flowOrdNo}
+            </if>
+        </where>
+    </update>
+	
+
+</mapper>

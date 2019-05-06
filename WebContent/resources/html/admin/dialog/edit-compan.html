@@ -1,0 +1,69 @@
+<div id="companDiv" class="ibox-content">
+    <div class="row">
+        <div class="col-sm-6 b-r">
+            <form class="form-horizontal" id="horizontal">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">运营公司名称：</label>
+                    <div class="col-sm-8">
+                        <input id="cotldNm" name="cotldNm" type="text" placeholder="运营公司名称" class="form-control" readonly="readonly">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">所在省份地市：</label>
+                    <div class="col-sm-8">
+                        <input id="provCity" type="text" placeholder="所在省份地市" class="form-control" readonly="readonly">
+                        <input id="prov" type="hidden">
+                        <input id="city" type="hidden">
+                        <input id="district" type="hidden">
+                        <input id="lngUde" type="hidden">
+                        <input id="latUde" type="hidden">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">办公地址：</label>
+                    <div class="col-sm-8">
+                    	<input id="workAdrr" name="workAdrr" type="text" placeholder="办公地址" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">办公电话：</label>
+                    <div class="col-sm-8">
+                    	<input id="workPhone" name="workPhone" type="text" placeholder="办公电话" class="form-control">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">负责人</label>
+                    <div class="col-sm-8">
+                        <input type="text" value="" id="mngerUsrNo" name="mngerUsrNo" style="display: none;" />
+                        <input type="text" value="" id="mngerNm" name="mngerNm" style="display: none;" />
+                        <select id="userSelect"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">父级部门</label>
+                    <div class="col-sm-8">
+                        <input type="text" value="0" id="fDeparNo" name="fDeparNo" style="display: none;" />
+                        <input type="text" value="" id="fDeparNm" name="fDeparNm" style="display: none;" />
+                        <select id="deptmentSelect"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">状态</label>
+                    <div class="col-sm-8">
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" value="S" id="S-status" name="deparSts">
+                            <label for="S-status">启用</label>
+                        </div>
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" value="F" id="F-status" name="deparSts">
+                            <label for="F-status">停用</label>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-6">
+            <div id="baiduMap" style="height:450px; z-index:20000"></div>
+        </div>
+    </div>
+</div>

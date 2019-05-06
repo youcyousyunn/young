@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.msg.dao.SubscribeDao">
+  <select id="querySubscribe" parameterType="java.util.Map" resultType="java.lang.Integer">
+  	SELECT COUNT(1) FROM T_MSG_SUBSCRIBE
+  	<where>
+  		<if test="targetId != null">
+  			and TARGET_ID = #{targetId}
+  		</if>
+  		<if test="targetTyp != null">
+  			and TARGET_TYP = #{targetTyp}
+  		</if>
+  		<if test="actionNo != null">
+  			and ACTION = #{actionNo}
+  		</if>
+  		<if test="lunchUsrNo != null">
+  			and USR_NO = #{lunchUsrNo}
+  		</if>
+  	</where>
+  </select>
+  
+  <insert id="createSubscribe" parameterType="java.util.Map">
+  	INSERT INTO T_MSG_SUBSCRIBE (
+  		TARGET_ID, 
+	  	TARGET_TYP, 
+	  	ACTION, 
+	  	USR_NO) 
+  	values(
+		#{targetId,jdbcType=VARCHAR}, 
+  		#{targetTyp,jdbcType=VARCHAR},
+  		#{actionNo,jdbcType=VARCHAR},
+  		#{recvUsrNo,jdbcType=VARCHAR}
+	)
+  </insert>
+  
+  <select id="qrySubscribeLst" parameterType="java.util.Map" resultType="com.ycs.msg.domain.po.SubscribePo">
+  	SELECT 
+	  	TARGET_ID targetId,
+	  	TARGET_TYP targetTyp,
+	  	ACTION action,
+	  	USR_NO usrNo
+  	FROM T_MSG_SUBSCRIBE 
+  	<where>
+  		<if test="targetId != null">
+  			AND TARGET_ID = #{targetId}
+  		</if>
+  		<if test="targetTyp != null">
+  			AND TARGET_TYP = #{targetTyp}
+  		</if>
+  		<if test="action != null">
+  			AND ACTION = #{action}
+  		</if>
+  	</where>
+  </select>
+  
+  
+  
+  
+  
+</mapper>

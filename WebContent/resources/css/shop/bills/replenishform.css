@@ -1,0 +1,28 @@
+.replenishform_img{
+	width: 70%;
+	/*display: block;*/
+}
+.replenishform_table{
+	margin-bottom: 0px;
+	border-bottom: none;
+}
+.replenishform_td1{
+	width: 10%;
+}
+.replenishform_pg{
+	margin: 10px 0;
+}
+.rep-content{
+	padding: 10px 15px;
+}
+.dy-table{
+    /*display: none;*/
+}
+@media print{
+    .dy-table{
+    	display: block;
+    }
+	.paging{
+		page-break-after :always;
+	}
+}

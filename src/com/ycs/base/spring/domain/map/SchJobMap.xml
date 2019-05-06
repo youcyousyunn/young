@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.base.spring.dao.SchJobDao">
+  <select id="querySchJob" parameterType="java.lang.String" resultType="com.ycs.base.spring.domain.po.SchJobPo">
+    SELECT 
+        APP_ID appId,
+	    MOD_ID modId,
+	    JOB_ID jobId,
+	    JOB_DESC jobDesc,
+	    TX_FLG txFlg,
+	    LOG_FLG logFlg
+    FROM T_PUB_SCHJOB
+    <where>
+        <if test="_parameter != null">
+            JOB_ID = #{jobId}
+        </if>
+    </where>
+  </select>
+  
+  <delete id="delDynJob" parameterType="java.lang.String">
+      DELETE FROM T_PUB_SCHJOB
+      <where>
+          <if test="_parameter != null">
+              JOB_ID = #{jobId}
+          </if>
+      </where>
+  </delete>
+  
+  <select id="queryDynSchJob" resultType="com.ycs.base.spring.domain.po.SchJobPo">
+    SELECT 
+        APP_ID appId,
+        MOD_ID modId,
+        JOB_ID jobId,
+        JOB_DESC jobDesc,
+        TX_FLG txFlg,
+        LOG_FLG logFlg
+    FROM T_PUB_SCHJOB
+    <where>
+    </where>
+  </select>
+
+</mapper>

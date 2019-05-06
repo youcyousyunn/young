@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.sys.dao.DataAuthDao">
+	<resultMap type="com.ycs.sys.domain.po.DataAuthPo" id="dataAuthPo">
+		<result property="usrNo" column="USR_NO" />
+		<result property="usrNm" column="USR_NM"/>
+		<result property="prov" column="PROV" />
+		<result property="city" column="CITY" />
+		<result property="ruleSts" column="RULE_STS" />
+		<result property="shop" column="SHOP" javaType="java.util.List" typeHandler="com.ycs.base.utils.JsonTypeHandler" />
+		<result property="stoh" column="STOH" javaType="java.util.List" typeHandler="com.ycs.base.utils.JsonTypeHandler" />
+		<result property="suppli" column="SUPPLI" javaType="java.util.List" typeHandler="com.ycs.base.utils.JsonTypeHandler" />
+	</resultMap>
+
+	<select id="qryAuthDataLstCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM T_SYS_DATAAUTH A, T_SYS_USERINFO B 
+		<where>
+			and A.USR_NO = B.USR_NO
+			<if test="usrNoLst != null">
+				and A.USR_NO IN 
+				<foreach collection="usrNoLst" item="usrNo" index="index" open="(" close=")" separator=",">
+            		#{usrNo}
+            	</foreach>
+			</if>
+		</where>
+	</select>
+	
+	<select id="qryAuthDataLst" parameterType="java.util.Map" resultMap="dataAuthPo">
+	  	SELECT *
+			<!-- A.USR_NO usrNo,
+			B.USR_NM usrNm,
+			PROV prov,
+			CITY city,
+			SHOP shop,
+			STOH stoh,
+			SUPPLI suppli,
+			RULE_STS ruleSts -->
+			FROM T_SYS_DATAAUTH A, T_SYS_USERINFO B
+	  	<where>
+	  		and A.USR_NO=B.USR_NO
+	  		<if test="usrNoLst != null">
+	  			and A.USR_NO IN
+	  			<foreach collection="usrNoLst" item="usrNo" index="index" open="(" close=")" separator=",">
+            		#{usrNo}
+            	</foreach>
+	  		</if>
+	  		<if test="search != null">
+	  			and (B.USR_NM LIKE <![CDATA['%${search}%']]> OR A.USR_NO LIKE <![CDATA['%${search}%']]> OR PROV LIKE <![CDATA['%${search}%']]>
+	  				 OR CITY LIKE <![CDATA['%${search}%']]> 
+	  		</if>
+	  	</where>
+	  	LIMIT #{startRow}, #{offset}
+  	</select>
+  
+  	<select id="qryDataAuthByUsrNo" resultType="com.ycs.sys.domain.po.DataAuthPo">
+  		SELECT
+			A.USR_NO usrNo,
+			B.USR_NM usrNm,
+			PROV prov,
+			CITY city,
+			SHOP shop,
+			STOH stoh,
+			SUPPLI suppli,
+			RULE_STS ruleSts
+			FROM T_SYS_DATAAUTH A, T_SYS_USERINFO B
+  		<where>
+  			A.USR_NO=B.USR_NO
+  			<if test="_parameter != null">
+  				and A.USR_NO = #{usrNo}
+  			</if>
+  		</where>
+  	</select>
+	
+
+
+
+
+
+</mapper>

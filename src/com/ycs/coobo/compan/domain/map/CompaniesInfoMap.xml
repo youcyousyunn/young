@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.coobo.compan.dao.CompaniesMngDao">
+  <update id="updCompaniesNm" parameterType="java.util.Map">
+  	UPDATE t_coo_cotld
+  	<set>
+  		<if test="cotldNm != null">
+  			COTLD_NM = #{cotldNm}
+  		</if>
+  	</set>
+  	<where>
+  		<if test="cotldNo != null">
+  			COTLD_NO = #{cotldNo}
+  		</if>
+  	</where>
+  </update>
+  
+  <update id="updCompanies" parameterType="com.ycs.coobo.compan.domain.po.CompaniesPo">
+  	UPDATE t_coo_cotld
+  	<set>
+  		<if test="cotldNm != null">
+  			COTLD_NM = #{cotldNm},
+  		</if>
+  		<if test="prov != null">
+  			PROV = #{prov},
+  		</if>
+  		<if test="city != null">
+  			CITY = #{city},
+  		</if>
+  		<if test="district != null">
+  			DISTRICT = #{district},
+  		</if>
+  		<if test="mngUsrNo != null">
+  			MNG_USRNO = #{mngUsrNo},
+  		</if>
+  		<if test="mnger != null">
+  			MNGER = #{mnger},
+  		</if>
+  		<if test="workAdrr != null">
+  			WORK_ADRR = #{workAdrr},
+  		</if>
+  		<if test="workPhone != null">
+  			WORK_PHONE = #{workPhone},
+  		</if>
+  		<if test="lngUde != null">
+  			LNG_UDE = #{lngUde},
+  		</if>
+  		<if test="latUde != null">
+  			LAT_UDE = #{latUde}
+  		</if>
+  	</set>
+  	<where>
+  		<if test="cotldNo != null">
+  			COTLD_NO = #{cotldNo}
+  		</if>
+  	</where>
+  </update>
+  
+  <select id="qryCompanInfo" parameterType="java.lang.String" resultType="com.ycs.coobo.compan.domain.po.CompaniesPo">
+  	SELECT COTLD_NO cotldNo,
+		PROV prov,
+		CITY city,
+		DISTRICT district,
+		COTLD_NM cotldNm,
+		MNGER mnger,
+		MNG_USRNO mngUsrNo,
+		WORK_ADRR workAdrr,
+		WORK_PHONE workPhone,
+		ORD_WEEK ordWeek,
+		CRE_DT creDt,
+		LNG_UDE lngUde,
+		LAT_UDE latUde,
+		COTLD_STS cotldSts
+		FROM T_COO_COTLD
+  	<where>
+  		<if test="_parameter != null">
+  			COTLD_NO = #{cotldNo}
+  		</if>
+  	</where>
+  </select>
+
+</mapper>

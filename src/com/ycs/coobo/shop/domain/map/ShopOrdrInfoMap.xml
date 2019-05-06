@@ -1,0 +1,503 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.coobo.shop.dao.ShopOrdrApplyDao">
+	<insert id="addShopOrdr" parameterType="com.ycs.coobo.shop.domain.po.ShopOrdrPo">
+		INSERT INTO T_SHOP_ORDR (
+			ORD_NO, 
+			ORD_CNL, 
+			PROV, 
+			CITY, 
+			DISTRICT, 
+			ORD_TYP, 
+			ORD_CLS, 
+			SHOP_NO, 
+			SHOP_NM, 
+			STOH_NO, 
+			STOH_NM, 
+			LINE_NO,
+			LINE_NM,
+			ORD_DT, 
+			ORD_TM, 
+			EFF_DAY, 
+			EXP_DT, 
+			EXP_TM, 
+			SEND_DT, 
+			ORD_STS, 
+			SKU_CNT, 
+			ORD_AMT, 
+			TAX_AMT, 
+			USR_NO, 
+			ORD_DESC
+		)
+		VALUES(
+			#{ordNo,jdbcType=VARCHAR},
+			#{ordCnl,jdbcType=VARCHAR},
+			#{prov,jdbcType=VARCHAR},
+			#{city,jdbcType=VARCHAR},
+			#{district,jdbcType=VARCHAR},
+			#{ordTyp,jdbcType=VARCHAR},
+			#{ordCls,jdbcType=VARCHAR},
+			#{shopNo,jdbcType=VARCHAR},
+			#{shopNm,jdbcType=VARCHAR},
+			#{stohNo,jdbcType=VARCHAR},
+			#{stohNm,jdbcType=VARCHAR},
+			#{lineNo,jdbcType=VARCHAR},
+			#{lineNm,jdbcType=VARCHAR},
+			#{ordDt,jdbcType=VARCHAR},
+			#{ordTm,jdbcType=VARCHAR},
+			#{effDay,jdbcType=VARCHAR},
+			#{expDt,jdbcType=VARCHAR},
+			#{expTm,jdbcType=VARCHAR},
+			#{sendDt,jdbcType=VARCHAR},
+			#{ordSts,jdbcType=VARCHAR},
+			#{skuCnt,jdbcType=VARCHAR},
+			#{ordAmt,jdbcType=VARCHAR},
+			#{taxAmt,jdbcType=VARCHAR},
+			#{usrNo,jdbcType=VARCHAR},
+			#{ordDesc,jdbcType=VARCHAR}
+		)
+	</insert>
+	
+	<insert	id="addShopOrdrDetail" parameterType="java.util.List">
+		INSERT INTO T_SHOP_ORDTETAIL (
+			JRN_NO, 
+			ORD_NO, 
+			BAR_CODE, 
+			PRD_NM, 
+			SPEC, 
+			PRICE, 
+			TOTPRICE, 
+			UNIT, 
+			CNT, 
+			TAX, 
+			WGHT, 
+			TOT_WGHT, 
+			ORD_CNT, 
+			REVW_CNT, 
+			SURPLUS_CNT, 
+			CRE_DT, 
+			CRE_TM
+		)
+		values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+			#{item.jrnNo, jdbcType=VARCHAR}, 
+			#{item.ordNo, jdbcType=VARCHAR},
+			#{item.barCode, jdbcType=VARCHAR},
+			#{item.prdNm, jdbcType=VARCHAR},
+			#{item.spec, jdbcType=VARCHAR},
+			#{item.price, jdbcType=VARCHAR},
+			#{item.totPice, jdbcType=VARCHAR},
+			#{item.unit, jdbcType=VARCHAR},
+			#{item.cnt, jdbcType=VARCHAR},
+			#{item.tax, jdbcType=VARCHAR},
+			#{item.wght, jdbcType=VARCHAR},
+			#{item.totWght, jdbcType=VARCHAR},
+			#{item.ordCnt, jdbcType=VARCHAR},
+			#{item.revwCnt, jdbcType=VARCHAR},
+			#{item.surplusCnt, jdbcType=VARCHAR},
+			#{item.creDt, jdbcType=VARCHAR},
+			#{item.creTm, jdbcType=VARCHAR}
+			)
+		</foreach>
+	</insert>
+
+	<select id="qryShopOrdrCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT COUNT(1) 
+		FROM T_SHOP_ORDR A, T_SYS_USERINFO B
+		<where>
+			A.USR_NO = B.USR_NO
+			<if test="prov != null">
+				AND A.PROV = #{prov}
+			</if>
+			<if test="city != null">
+				AND A.CITY = #{city}
+			</if>
+			<if test="ordNo != null">
+				AND A.ORD_NO = #{ordNo}
+			</if>
+			<if test="shopNo != null">
+				AND A.SHOP_NO = #{shopNo}
+			</if>
+			<if test="shopNm != null">
+				AND A.SHOP_NM like <![CDATA['%${shopNm}%']]> 
+			</if>
+			<if test="lineNo != null">
+				AND A.LINE_NO = #{lineNo}
+			</if>
+			<if test="ordCls != null">
+                AND A.ORD_CLS = #{ordCls}
+            </if>
+			<if test="ordSts != null">
+				AND A.ORD_STS = #{ordSts}
+			</if>
+			<if test="ordDt != null">
+				AND A.ORD_DT = #{ordDt}
+			</if>
+			<if test="sendDt != null">
+				AND A.SEND_DT = #{sendDt}
+			</if>
+			<if test="stohNo != null">
+				AND A.STOH_NO = #{stohNo}
+			</if>
+		</where>
+	</select>	
+	
+	<select id="qryShopOrdrLst" parameterType="java.util.Map" resultType="com.ycs.coobo.shop.domain.po.ShopOrdrPo">
+	  	SELECT
+			ORD_NO ordNo,
+			ORD_CNL ordCnl,
+			ORD_TYP ordTyp,
+			ORD_CLS ordCls,
+			A.SHOP_NO shopNo,
+			A.SHOP_NM shopNm,
+			A.STOH_NO stohNo,
+			A.STOH_NM stohNm,
+			A.PROV prov,
+			A.CITY city,
+			A.DISTRICT district,
+			LINE_NO lineNo,
+			LINE_NM lineNm,
+			ORD_STS ordSts,
+			ORD_DT ordDt,
+			ORD_TM ordTm,
+			EFF_DAY effDay,
+			EXP_DT expDt,
+			EXP_TM expTm,
+			SEND_DT sendDt,
+			SKU_CNT skuCnt,
+			SATISSKU_CNT satisSkuCnt,
+			SATISSKU_PCT satisSkuPct,
+			SATISPRD_PCT satisPrdPct,
+			ORD_AMT ordAmt,
+			TAX_AMT taxAmt,
+			A.USR_NO usrNo,
+			USR_NM usrNm,
+			ORD_DESC ordDesc,
+			(SELECT COUNT(1) FROM T_COO_ORDRTRACK C WHERE C.ORD_NO=A.ORD_NO) distNum,
+			(SELECT SUM(D.ORD_CNT) FROM t_shop_ordtetail D WHERE D.ORD_NO=A.ORD_NO) ordCnt, 
+			UPD_DT updDt, 
+			UPD_TM updTm
+			FROM T_SHOP_ORDR A,T_SYS_USERINFO B
+	  	<where>
+	  		A.USR_NO=B.USR_NO
+	  		<if test="prov != null">
+				AND A.PROV = #{prov}
+			</if>
+			<if test="city != null">
+				AND A.CITY = #{city}
+			</if>
+			<if test="ordNo != null">
+				AND A.ORD_NO = #{ordNo}
+			</if>
+			<if test="shopNo != null">
+				AND A.SHOP_NO = #{shopNo}
+			</if>
+			<if test="shopNm != null">
+				AND A.SHOP_NM like <![CDATA['%${shopNm}%']]> 
+			</if>
+			<if test="lineNo != null">
+				AND A.LINE_NO = #{lineNo}
+			</if>
+			<if test="ordCls != null">
+                AND A.ORD_CLS = #{ordCls}
+            </if>
+			<if test="ordSts != null">
+				AND A.ORD_STS = #{ordSts}
+			</if>
+			<if test="ordDt != null">
+				AND A.ORD_DT = #{ordDt}
+			</if>
+			<if test="sendDt != null">
+				AND A.SEND_DT = #{sendDt}
+			</if>
+			<if test="stohNo != null">
+				AND A.STOH_NO = #{stohNo}
+			</if>
+	  	</where>
+	  	LIMIT #{startRow}, #{offset}
+	</select>
+	
+	<select id="qryShopOrdInfoByOrdNo" parameterType="java.lang.String" resultType="com.ycs.coobo.shop.domain.po.ShopOrdrPo">
+		SELECT
+			ORD_NO ordNo,
+			ORD_CNL ordCnl,
+			ORD_TYP ordTyp,
+			ORD_CLS ordCls,
+			A.SHOP_NO shopNo,
+			A.SHOP_NM shopNm,
+			A.STOH_NO shopNo,
+			A.STOH_NM shopNm,
+			LINE_NO lineNo,
+			LINE_NM lineNm,
+			A.PROV prov,
+			A.CITY city,
+			A.DISTRICT district,
+			ORD_STS ordSts,
+			ORD_DT ordDt,
+			ORD_TM ordTm,
+			EFF_DAY effDay,
+			EXP_DT expDt,
+			EXP_TM expTm,
+			SEND_DT sendDt,
+			SKU_CNT skuCnt,
+			SATISSKU_CNT satisSkuCnt,
+			SATISSKU_PCT satisSkuPct,
+			SATISPRD_PCT satisPrdPct,
+			ORD_AMT ordAmt,
+			TAX_AMT taxAmt,
+			A.USR_NO usrNo,
+			USR_NM usrNm,
+			ORD_DESC ordDesc,
+			(SELECT COUNT(1) FROM T_COO_ORDRTRACK C WHERE C.ORD_NO=A.ORD_NO) distNum,
+			(SELECT SUM(D.ORD_CNT) FROM t_shop_ordtetail D WHERE D.ORD_NO=A.ORD_NO) ordCnt, 
+			UPD_DT updDt, 
+			UPD_TM updTm 
+		FROM T_SHOP_ORDR A 
+		INNER JOIN T_SYS_USERINFO B ON A.USR_NO=B.USR_NO
+		<where>
+			<if test="_parameter != null">
+				ORD_NO = #{ordNo}
+			</if>
+		</where>
+	</select>
+	
+	<select id="qryShopOrdrDetailCountByOrdNo" parameterType="java.lang.String" resultType="java.lang.Integer">
+		SELECT COUNT(1) FROM T_SHOP_ORDTETAIL 
+		<where>
+			<if test="_parameter != null">
+				ORD_NO = #{ordNo}
+			</if>
+		</where>
+	</select>
+	
+	<select id="qryShopOrdrDetailLstByOrdNo" parameterType="java.util.Map" resultType="com.ycs.coobo.shop.domain.po.ShopOrdrPo">
+		SELECT
+			JRN_NO jrnNo,
+			ORD_NO ordNo,
+			A.BAR_CODE barCode,
+			A.PRD_NM prdNm,
+			B.WHSLE_SPEC whsleSpec,
+			B.WHSLE_UNIT whsleUnit,
+			B.IS_APART isApart,
+			SPEC spec,
+			PRICE price,
+			TOTPRICE totPice,
+			WGHT wght,
+			TOT_WGHT totWght,
+			UNIT unit,
+			TAX tax,
+			CNT cnt,
+			ORD_CNT ordCnt,
+			REVW_CNT revwCnt,
+			DIST_CNT distCnt,
+			RECEV_CNT recevCnt,
+			SURPLUS_CNT surplusCnt,
+			DELIVER_CNT deliverCnt,
+			A.REMK remk,
+			A.CRE_DT creDt,
+			A.CRE_TM creTm
+			FROM T_SHOP_ORDTETAIL A
+			INNER JOIN T_COO_PRODUCT B ON B.BAR_CODE=A.BAR_CODE
+		<where>
+			<if test="ordNo != null">
+				ORD_NO = #{ordNo}
+			</if>
+		</where>
+		LIMIT #{startRow}, #{offset}
+	</select>
+	
+	<select id="qryShopOrdInfo" parameterType="java.lang.String" resultType="com.ycs.coobo.shop.domain.po.ShopOrdrPo">
+        SELECT
+            ORD_NO ordNo,
+            ORD_CNL ordCnl,
+            ORD_TYP ordTyp,
+            ORD_CLS ordCls,
+            A.SHOP_NO shopNo,
+            A.SHOP_NM shopNm,
+            A.STOH_NO shopNo,
+            A.STOH_NM shopNm,
+            LINE_NO lineNo,
+            LINE_NM lineNm,
+            A.PROV prov,
+            A.CITY city,
+            A.DISTRICT district,
+            ORD_STS ordSts,
+            ORD_DT ordDt,
+            ORD_TM ordTm,
+            EFF_DAY effDay,
+            EXP_DT expDt,
+            EXP_TM expTm,
+            SEND_DT sendDt,
+            SKU_CNT skuCnt,
+            SATISSKU_CNT satisSkuCnt,
+            SATISSKU_PCT satisSkuPct,
+            SATISPRD_PCT satisPrdPct,
+            ORD_AMT ordAmt,
+            TAX_AMT taxAmt,
+            A.USR_NO usrNo,
+            USR_NM usrNm,
+            ORD_DESC ordDesc,
+            (SELECT COUNT(1) FROM T_COO_ORDRTRACK C WHERE C.ORD_NO=A.ORD_NO) distNum,
+            (SELECT SUM(D.ORD_CNT) FROM t_shop_ordtetail D WHERE D.ORD_NO=A.ORD_NO) ordCnt, 
+            UPD_DT updDt, 
+            UPD_TM updTm 
+        FROM T_SHOP_ORDR A 
+        INNER JOIN T_SYS_USERINFO B ON A.USR_NO=B.USR_NO
+        <where>
+            <if test="_parameter != null">
+                ORD_NO = #{ordNo}
+            </if>
+        </where>
+    </select>
+    
+    <update id="updShopOrdrSts" parameterType="java.util.Map">
+        UPDATE T_SHOP_ORDR
+        <set>
+            <if test="shopOrdrSts != null">
+                ORD_STS = #{shopOrdrSts} 
+            </if>
+        </set>
+        <where>
+            <if test="ordNo != null">
+                ORD_NO = #{ordNo}
+            </if>
+        </where>
+    </update>
+	
+	<select id="qryShopOrdInfoLstByOrdrNoLst" parameterType="java.util.List" resultType="com.ycs.coobo.shop.domain.po.ShopOrdrPo">
+        SELECT
+            ORD_NO ordNo,
+            ORD_CNL ordCnl,
+            ORD_TYP ordTyp,
+            ORD_CLS ordCls,
+            A.SHOP_NO shopNo,
+            A.SHOP_NM shopNm,
+            A.STOH_NO stohNo,
+            A.STOH_NM stohNm,
+            LINE_NO lineNo,
+            LINE_NM lineNm,
+            A.PROV prov,
+            A.CITY city,
+            A.DISTRICT district,
+            ORD_STS ordSts,
+            ORD_DT ordDt,
+            ORD_TM ordTm,
+            EFF_DAY effDay,
+            EXP_DT expDt,
+            EXP_TM expTm,
+            SEND_DT sendDt,
+            SKU_CNT skuCnt,
+            SATISSKU_CNT satisSkuCnt,
+            SATISSKU_PCT satisSkuPct,
+            SATISPRD_PCT satisPrdPct,
+            ORD_AMT ordAmt,
+            TAX_AMT taxAmt,
+            A.USR_NO usrNo,
+            USR_NM usrNm,
+            ORD_DESC ordDesc,
+            (SELECT COUNT(1) FROM T_COO_ORDRTRACK C WHERE C.ORD_NO=A.ORD_NO) distNum,
+            (SELECT SUM(D.ORD_CNT) FROM t_shop_ordtetail D WHERE D.ORD_NO=A.ORD_NO) ordCnt, 
+            UPD_DT updDt, 
+            UPD_TM updTm 
+        FROM T_SHOP_ORDR A 
+        INNER JOIN T_SYS_USERINFO B ON A.USR_NO=B.USR_NO
+        <where>
+            <if test="list != null">
+                <if test="list.size() > 0">
+	                A.ORD_NO IN
+	                <foreach collection="list" item="item" index="index" open="(" separator="," close=")">
+	                    #{item}
+	                </foreach>
+	            </if>
+            </if>
+        </where>
+    </select>
+    
+    <select id="shopOrdrCombin" parameterType="java.util.Map" resultType="com.ycs.coobo.shop.domain.po.ShopOrdrCombinPo">
+        SELECT
+            A.BAR_CODE barCode,
+            A.PRD_NM prdNm,
+            B.SOURC_SPEC sourcSpec,
+            B.SOURC_UNIT sourcUnit,
+            B.SOURC_CNT sourcCnt,
+            B.SOURC_PRICE sourcPrice,
+            B.POS_UNIT posUnit,
+            SUM(A.REVW_CNT) needCnt,
+            (SELECT SUM(NOW_NUM) FROM T_STOH_STOCK 
+                <where>
+                    BAR_CODE=A.BAR_CODE
+                    <if test="stohNo != null">
+                        AND STOH_NO = #{stohNo}
+                        AND SELL_STS='S'
+                    </if>
+                </where>
+             ) nowCnt,
+            (SELECT SUM(UP_ORDSELL) FROM T_SHOP_AUTOREPL WHERE BAR_CODE=A.BAR_CODE) upSellCnt,
+            (SELECT SUM(UPM_ORDSELL) FROM T_SHOP_AUTOREPL WHERE BAR_CODE = A.BAR_CODE) upmSellCnt,
+            (SELECT SUPPLI_NM FROM T_COO_SUPPLIERS WHERE SUPPLI_NO=(SELECT SUPPLI_NO FROM T_COO_SUPPLIPRICE 
+                <where>
+                    BAR_CODE=A.BAR_CODE
+                    <if test="prov != null">
+                        AND PROV = #{prov}
+                    </if>
+                    <if test="city != null">
+                        AND CITY = #{city}
+                    </if>
+                    AND IS_DEFAULT='Y'
+                </where>)) suppliNm,
+            SUM(A.ORD_CNT) ordCnt
+        FROM T_SHOP_ORDTETAIL A
+        INNER JOIN T_COO_PRODUCT B ON B.BAR_CODE = A.BAR_CODE
+        <where>
+            <if test="ordNoLst != null">
+	            <if test="ordNoLst.size() > 0">
+	                AND A.ORD_NO IN 
+	                <foreach collection="ordNoLst" item="item" index="index" open="(" separator="," close=")">
+	                    #{item}
+	                </foreach>
+	            </if>
+            </if>
+        </where>
+        GROUP BY A.BAR_CODE ORDER BY B.UPD_DT DESC
+    </select>
+    
+    <select id="qryShopOrdrDetailsByOrdNo" parameterType="java.lang.String" resultType="com.ycs.coobo.shop.domain.po.ShopOrdrPo">
+		SELECT
+			JRN_NO jrnNo,
+			ORD_NO ordNo,
+			A.BAR_CODE barCode,
+			A.PRD_NM prdNm,
+			B.WHSLE_SPEC whsleSpec,
+			B.WHSLE_UNIT whsleUnit,
+			B.IS_APART isApart,
+			SPEC spec,
+			PRICE price,
+			TOTPRICE totPice,
+			WGHT wght,
+			TOT_WGHT totWght,
+			UNIT unit,
+			TAX tax,
+			CNT cnt,
+			ORD_CNT ordCnt,
+			REVW_CNT revwCnt,
+			DIST_CNT distCnt,
+			RECEV_CNT recevCnt,
+			SURPLUS_CNT surplusCnt,
+			DELIVER_CNT deliverCnt,
+			A.REMK remk,
+			A.CRE_DT creDt,
+			A.CRE_TM creTm
+			FROM T_SHOP_ORDTETAIL A
+			INNER JOIN T_COO_PRODUCT B ON B.BAR_CODE=A.BAR_CODE
+		<where>
+			<if test="_parameter != null">
+				ORD_NO = #{ordNo}
+			</if>
+		</where>
+	</select>
+
+
+</mapper>

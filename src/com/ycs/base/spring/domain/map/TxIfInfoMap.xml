@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.base.spring.dao.TxIfDao">
+  <select id="queryTxIf" parameterType="java.lang.String" resultType="com.ycs.base.spring.domain.po.TxIfPo">
+    SELECT 
+        APP_ID appId,
+	    MOD_ID modId,
+	    URL url,
+	    URL_DESC urlDesc,
+	    TX_FLG txFlg,
+	    LOG_FLG logFlg,
+	    PWD_FLG pwdFlg,
+	    URL_AUTH urlAuth
+    FROM T_PUB_TXIF
+    <where>
+        <if test="_parameter != null">
+            URL = #{url}
+        </if>
+    </where>
+  </select>
+
+
+</mapper>

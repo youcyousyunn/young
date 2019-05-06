@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+<meta http-equiv="expires" content="0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>门店订单详情页</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<link href="../../../css/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+<link href="../../../css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+<link href="../../../css/animate.min.css" rel="stylesheet">
+<link href="../../../css/style.min.css?v=4.1.0" rel="stylesheet">
+<link href="../../../css/bootstrap-table/bootstrap-table.1.10.1.min.css" rel="stylesheet">
+<link href="../../../css/ystep/ystep.css" rel="stylesheet">
+<link href="../../../css/inputbox/inputbox.css" rel="stylesheet">
+<link href="../../../css/shop/bills/replenishform.css" rel="stylesheet">
+<script src="../../../js/common/head.load.min.js"></script>
+</head>
+<body>
+	<div class="row wrapper wrapper-content animated fadeInRight">
+        <div class="col-md-12">
+            <div class="row ibox-content">
+                <dl class="dl-horizontal">
+                    <dt>流程状态：</dt>
+                    <dd><span id="flowSts" class="label label-primary"></span>
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>订单状态：</dt>
+                    <dd><div id="ordrStsYstep"></div></span>
+                    </dd>
+                </dl>
+            </div>
+        </div>
+	    <div class="col-md-12">
+	        <div class="row ibox-content">
+                <div id="print_div">
+    	        	<div class="bootstrap-table">
+    					<div class="fixed-table-toolbar">
+    						<div class="bars pull-left">
+    							<div id="toolbar"></div>
+    						</div>
+    						<table id="replenish_table" data-mobile-responsive="true"></table>
+    						<div id="ordrSkuInfo" class="text-right replenishform_pg">总计：SKU：0，TT：0，总价：0</div>
+    					</div>
+    				</div>
+    				<div class="row ibox-content panel panel-default">
+                        <div class="panel-heading">
+                            <i class="fa fa-info-circle"></i> 操作记录
+                        </div>
+                        <div id="feedList" class="panel-body"></div>
+                        <input id="lstMsgNo" type="hidden">
+                        <input id="flowOrd" type="hidden">
+                        <input id="ordNo" type="hidden">
+                    </div>
+                    <div class="row rep-content">
+                        <!--<button id="wentonBtn" type="button" class="btn btn-w-m  btn-sm btn-info">继续添加</button>-->
+                        <input type="button" class="btn btn-w-m  btn-sm btn-info"  value="导出数据"  name="download"/>
+                    </div>
+                </div>
+	  		</div>
+	    </div>
+	</div>
+    <div class="ibox-content" id="ordrAddDiv" style="display: none;">
+        <form class="form-horizontal" onkeydown="if(event.keyCode==13){return false;}">
+            <div style="margin-bottom: 10px;">
+                <input class="form-control"  style="width: 280px;" type="text" id="rep_data" placeholder="输入条码或商品名快速添加">
+            </div>
+            <table id="orderPost_table" data-mobile-responsive="true" data-show-columns="true" ></table>
+        </form>
+    </div>
+</body>
+<script src="../../../js/jquery/jquery.min.js?v=2.1.4"></script>
+<script src="../../../js/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+<script src="../../../js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="../../../js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+<script src="../../../js/plugins/ystep/ystep.js"></script>
+<script src="../../../js/plugins/layer/layer.js"></script>
+<script src="../../../js/common/global.js"></script>
+<script type="text/javascript">
+    (function(g){
+        head.js(
+            g.httpYoungPath+"resources/js/common/common.js?v="+g.globalVersion,
+            g.httpYoungPath+"resources/js/shop/bills/shopordrdetail.js?v="+g.globalVersion
+        );
+    }(global));
+</script>
+</html>

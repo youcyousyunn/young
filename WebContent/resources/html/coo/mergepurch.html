@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <title>合并采购</title>
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="../../css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    <link href="../../css/font-awesome.css" rel="stylesheet">
+    <link href="../../css/bootstrap-table/bootstrap-table.1.10.1.min.css" rel="stylesheet">
+    <link href="../../css/animate.min.css" rel="stylesheet">
+    <link href="../../css/selects/selects.css" rel="stylesheet">
+    <link href="../../css/inputbox/inputbox.css" rel="stylesheet">
+    <link href="../../js/plugins/jedate/skin/jedates.css" rel="stylesheet"/>
+    <link href="../../css/style.css" rel="stylesheet">
+    <script src="../../js/common/head.load.min.js"></script>
+</head>
+<body class="gray-bg">
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>合并采购</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <form role="form" class="form-inline">
+                            <div class="form-group">
+                                <!-- 给label标签设置属性(label隐藏)：class="sr-only" -->
+		                        <label>订单号:</label>
+		                        <input type="text" placeholder="请输入订单号" id="ordNoTxt" class="form-control">
+                            </div>
+                            <div class="form-group">
+                                <label>状态:</label>
+                                <select id="ordStsSel" class="form-control">
+	                                <option value ="-1">请选择状态</option>
+	                                <option value ="W">申请中</option>
+	                                <option value ="V">审核完成</option>
+	                                <option value ="D">配货完成</option>
+	                                <option value ="T">分拣完成</option>
+	                                <option value="P">配送中</option>
+	                                <option value="S">完成关闭</option>
+	                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label>订单分类:</label>
+                                <select id="ordClsSel" class="form-control">
+	                                <option value ="-1">请选择分类</option>
+	                                <option value ="NORMAL">普通订单</option>
+	                                <option value ="FRESH">生鲜订单</option>
+	                                <option value="BFOOD">早餐订单</option>
+	                                <option value="LFOOD">午餐订单</option>
+	                                <option value="MATER">普通物料</option>
+	                                <option value="FMATER">餐饮物料</option>
+	                                <option value="RMATER">原料订单</option>
+	                            </select>
+                            </div>
+                            <div class="form-group">
+                                <label>订单日期:</label>
+                                <input id="ordDtTxt" type="text" class="form-control" placeholder="格式：2017-01-01"/>
+                            </div>
+                            <button id="serahBtn" type="button" class="btn btn-sm btn-primary pull-right">搜索</button>
+                        </form>
+                        <!-- <label>订单日期:<input id="ordDtTxt" type="text" class="input-s-sm" placeholder="格式：2017-01-01"/></label>
+                        <label>送货日期:<input id="sendDtTxt" type="text" class="input-s-sm" placeholder="格式：2017-01-01"/></label> -->
+                    </div>
+                    <div class="ibox-content">
+                        <div id="toolbar">
+                            <button id="merge_btn" type="button" class="btn btn-danger btn-w-m" title="合并生成采购单">合并生成采购单</button>
+                        </div>
+                        <table id="shopOrdr_table" data-mobile-responsive="true"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../../js/jquery/jquery.min.js"></script>
+    <script src="../../js/bootstrap/bootstrap.min.js"></script>
+    <!-- 表格js -->
+    <script src="../../js/plugins/bootstrap-table/bootstrap-table.min.js"></script>
+    <script src="../../js/plugins/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+    <!-- layer -->
+    <script src="../../js/plugins/jedate/jquery.jedate.min.js"></script>
+    <script src="../../js/plugins/layer/layer.js"></script>
+    <script src="../../js/common/global.js"></script>
+    <script type="text/javascript">
+        (function(g){
+            head.js(
+                g.httpYoungPath+"resources/js/common/common.js?v="+g.globalVersion,
+                g.httpYoungPath+"resources/js/coo/mergepurch.js?v="+g.globalVersion
+            );
+        }(global));
+    </script>
+</body>
+</html>

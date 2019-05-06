@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.base.spring.dao.LogJnlDao">
+	<insert id="saveLog" parameterType="com.ycs.base.spring.domain.po.LogJnlPo">
+  	INSERT INTO T_PUB_LOGJNL (
+  	    NODE_ID,
+  	    REG_ID,
+  	    MSG_ID,
+  	    CODE,
+  	    CODE_DESC,
+  	    REQ_DT,
+  	    REQ_TM,
+  	    RSP_DT,
+  	    RSP_TM,
+  	    TOT_TM,
+  	    USER_AGENT,
+  	    SIP,
+  	    REQ_DAT,
+  	    USR_TOKEN,
+  	    USR_NO,
+  	    RSP_DAT,
+  	    MSG_CD,
+  	    MSG_INF,
+  	    TRM_TYP,
+  	    TRM_ID,
+  	    TRM_VER,
+  	    APP_VER,
+  	    APP_CNL)
+  	VALUES(
+		#{nodeId,jdbcType=VARCHAR}, 
+  		#{regId,jdbcType=VARCHAR},
+  		#{msgId,jdbcType=VARCHAR},
+  		#{code,jdbcType=VARCHAR},
+  		#{codeDesc,jdbcType=VARCHAR},
+  		#{reqDt,jdbcType=DATE},
+  		#{reqTm,jdbcType=TIME},
+  		#{rspDt,jdbcType=DATE},
+  		#{rspTm,jdbcType=TIME},
+  		#{totTm,jdbcType=INTEGER},
+  		#{userAgent,jdbcType=VARCHAR},
+  		#{sip,jdbcType=VARCHAR},
+  		#{reqDat,jdbcType=VARCHAR},
+  		#{usrToken,jdbcType=VARCHAR},
+  		#{usrNo,jdbcType=VARCHAR},
+  		#{rspDat,jdbcType=VARCHAR},
+  		#{msgCd,jdbcType=VARCHAR},
+  		#{msgInf,jdbcType=VARCHAR},
+  		#{trmTyp,jdbcType=VARCHAR},
+  		#{trmId,jdbcType=VARCHAR},
+  		#{trmVer,jdbcType=VARCHAR},
+  		#{appVer,jdbcType=VARCHAR},
+  		#{appCnl,jdbcType=VARCHAR}
+	)
+  </insert>
+
+
+
+</mapper>

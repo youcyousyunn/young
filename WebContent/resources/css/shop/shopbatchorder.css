@@ -1,0 +1,50 @@
+.inputseek{
+    width: 240px;
+}
+.seekcontent{
+    height: 500px;
+    width: 240px;
+    overflow-y: auto;
+    overflow-x: auto;
+    border: 1px solid #999;
+    padding: 0;
+    margin-top: 5px;
+}
+.seekcontent li{
+    list-style: none;
+    cursor: pointer;
+    height: 28px;
+    line-height: 28px;
+    box-sizing: border-box;
+    padding-left: 5px;
+    word-break:keep-all;           /* 不换行 */
+white-space:nowrap;          /* 不换行 */
+}
+.seekcontent li:hover{
+    background: #999;
+    color: #fff;
+}
+.liinx,.highlight,.is-active{
+    background: #999;
+    color: #fff;
+}
+.is-hidden{
+    display: none;
+}
+.seektxt{
+    height: 30px;
+    line-height: 30px;
+    background: #FF0000;
+    color: #fff;
+    box-sizing: border-box;
+    padding-left: 5px;
+    display: none;
+}
+.is-visible{
+    display: block;
+}
+@media only screen  and (max-width: 800px) {
+	.inputseek,.seekcontent{
+	    width: 130px;
+	}
+}

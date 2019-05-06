@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.base.spring.dao.UsrAuthDao">
+  <select id="isPermission" parameterType="java.util.Map" resultType="java.lang.Integer">
+     SELECT DISTINCT COUNT(p.PER_NO) 
+     FROM t_sys_permission p 
+     INNER JOIN t_sys_rolepermission rp ON rp.PER_NO = p.PER_NO
+     INNER JOIN t_sys_role r ON r.ROLE_NO = rp.ROLE_NO
+     INNER JOIN t_sys_usr_role u ON u.ROLE_NO = r.ROLE_NO
+     <where>
+         <if test="usrNo != null">
+             AND u.USR_NO = #{usrNo}
+         </if>
+         <if test="authUrl != null">
+             AND p.URL_AUTH = #{authUrl}
+         </if>
+     </where>
+  </select>
+
+</mapper>

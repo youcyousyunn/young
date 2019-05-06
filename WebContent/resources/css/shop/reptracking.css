@@ -1,0 +1,9 @@
+.tracking-top{
+	padding-top: 10px;
+}
+.form-control{
+	padding: 0 5px;
+	height: 28px;
+	display: inline-block;
+	width: 70%;
+}

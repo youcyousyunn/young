@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/rabbit
+           http://www.springframework.org/schema/rabbit/spring-rabbit-1.4.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-4.1.xsd
+           http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-4.1.xsd">
+	<context:component-scan base-package="com.ycs.base.spring.jms" />
+
+	<rabbit:listener-container connection-factory="rabbitmqConnectionFactory" 
+	    concurrency="10"
+		max-concurrency="10" 
+		acknowledge="none">
+		<rabbit:listener ref="hiCommonConsumer" queue-names="sysQueue" admin="young" />
+		<rabbit:listener ref="logJnlConsumer" queue-names="logQueue" admin="young" />
+	</rabbit:listener-container>
+
+</beans>

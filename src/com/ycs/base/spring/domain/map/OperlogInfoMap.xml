@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.base.spring.dao.OperLogDao">
+	<insert id="saveLogToDB" parameterType="com.ycs.base.spring.domain.po.OperlogPo">
+  	INSERT INTO T_PUB_OPERLOG (
+  		NODE_ID, 
+	  	REG_ID, 
+	  	MSG_ID, 
+	  	REQ_DT, 
+	  	REQ_TM, 
+	  	OPER_ID, 
+	  	TITLE, 
+	  	ACTION, 
+	  	APP_CNL)
+  	VALUES(
+		#{nodeId,jdbcType=VARCHAR}, 
+  		#{regId,jdbcType=VARCHAR},
+  		#{msgId,jdbcType=VARCHAR},
+  		#{reqDt,jdbcType=VARCHAR},
+  		#{reqTm,jdbcType=VARCHAR},
+  		#{operId,jdbcType=VARCHAR},
+  		#{title,jdbcType=VARCHAR},
+  		#{action,jdbcType=VARCHAR},
+  		#{appCnl,jdbcType=VARCHAR}
+	)
+  </insert>
+
+</mapper>

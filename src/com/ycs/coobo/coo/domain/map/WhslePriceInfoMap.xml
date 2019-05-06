@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.coobo.coo.dao.ProductPriceDao">
+  <select id="qryWhslePriceByCodeLst" parameterType="java.util.Map" resultType="com.ycs.coobo.coo.domain.po.WhslePricePo">
+  	SELECT 
+  		BAR_CODE barCode, 
+  		PROV prov, 
+  		CITY city, 
+  		DISTRICT district,  
+  		WHSLE_PRICE whslePrice, 
+  		WHSLE_TYP whsleTyp,
+  		WHSLE_DESC whsleDesc, 
+  		UPD_DT updDt
+  	FROM T_COO_WHSLEPRICE
+  	<where>
+  		AND PRICE_STS='S'
+  		<if test="prov != null">
+  			AND PROV = #{prov}
+  		</if>
+  		<if test="city != null">
+  			AND CITY = #{city}
+  		</if>
+  		<if test="shopType != null">
+  			AND WHSLE_TYP = #{shopType}
+  		</if>
+  		<if test="barCodeLst != null">
+  			AND BAR_CODE IN
+  			<foreach collection="barCodeLst" item="barCode" index="index" open="(" close=")" separator=",">
+  				#{barCode}
+  			</foreach>
+  		</if>
+  	</where>
+  </select>
+  
+  <select id="qrySuppliPriceByCodeLst" parameterType="java.util.Map" resultType="com.ycs.coobo.suppli.domain.po.SuppliPricePo">
+    SELECT 
+        BAR_CODE barCode, 
+        A.PROV prov, 
+        A.CITY city, 
+        A.DISTRICT district, 
+        IS_DEFAULT isDefault, 
+        A.SUPPLI_NO suppliNo, 
+        B.SUPPLI_NM suppliNm, 
+        SUPPLI_PRICE suppliPrice, 
+        SUPPLI_TAX suppliTax, 
+        SUPPLI_DESC suppliDesc, 
+        UPD_DT updDt
+    FROM T_COO_SUPPLIPRICE A 
+    INNER JOIN T_COO_SUPPLIERS B ON B.SUPPLI_NO = A.SUPPLI_NO
+    <where>
+        <if test="barCodeLst != null">
+            AND BAR_CODE IN
+            <foreach collection="barCodeLst" item="barCode" index="index" open="(" separator="," close=")">
+                #{barCode}
+            </foreach>
+        </if>
+        AND PRICE_STS='S'
+        AND IS_DEFAULT='Y'
+    </where>
+  </select>
+  
+  
+</mapper>

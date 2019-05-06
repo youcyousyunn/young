@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache>
+    <diskStore path="ehcache" />
+    <defaultCache maxElementsInMemory="10000" eternal="false"
+        timeToIdleSeconds="300" timeToLiveSeconds="0" overflowToDisk="false"
+        memoryStoreEvictionPolicy="LRU" />
+    <cache name="PUBMSG_CACHE" maxElementsOnDisk="20000"
+        maxElementsInMemory="10000" eternal="false" timeToIdleSeconds="300"
+        timeToLiveSeconds="300" overflowToDisk="true" diskPersistent="false"
+        memoryStoreEvictionPolicy="LRU" />
+</ehcache>

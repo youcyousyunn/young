@@ -1,0 +1,54 @@
+
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <form id="edit-deptment-form" role="form" class="form-horizontal">
+            <div class="col-sm-12 b-r">
+                <h3 class="m-t-none m-b">基本信息</h3>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">部门名称</label>
+                    <div class="col-sm-8">
+                        <input type="text" value="" id="deparNo" name="deparNo" style="display: none;" />
+                        <input type="text" value="" id="typeNo" name="typeNo" style="display: none;" />
+                        <input type="text" value="" id="deparTyp" name="deparTyp" style="display: none;" />
+                        <input name="deparNm" id="deparNm" type="text" placeholder="部门名称" class="form-control" maxlength="10" readonly="readonly" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">父级部门</label>
+                    <div class="col-sm-8">
+                        <input type="text" value="0" id="fDeparNo" name="fDeparNo" style="display: none;" />
+                        <input type="text" value="" id="fDeparNm" name="fDeparNm" style="display: none;" />
+                        <select id="deptmentSelect"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">负责人</label>
+                    <div class="col-sm-8">
+                        <input type="text" value="" id="mngerUsrNo" name="mngerUsrNo" style="display: none;" />
+                        <input type="text" value="" id="mngerNm" name="mngerNm" style="display: none;" />
+                        <select id="userSelect"></select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">状态</label>
+                    <div class="col-sm-8">
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" value="S" id="S-status" name="deparSts">
+                            <label for="S-status">启用</label>
+                        </div>
+                        <div class="radio radio-info radio-inline">
+                            <input type="radio" value="F" id="F-status" name="deparSts">
+                            <label for="F-status">停用</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">描述</label>
+                    <div class="col-sm-8">
+                        <input name="deparDesc" id="deparDesc" type="text" placeholder="描述" class="form-control" maxlength="30" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

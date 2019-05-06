@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="expires" content="0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>工作台</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <link href="resources/css/bootstrap/bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="resources/css/font-awesome.min.css?v=4.4.0" rel="stylesheet">
+    <link href="resources/css/animate.min.css" rel="stylesheet">
+    <link href="resources/css/style.min.css?v=4.1.0" rel="stylesheet">
+    <script src="resources/js/common/head.load.min.js"></script>
+    <style type="text/css">
+        .unread{
+            color: rgb(0, 29, 255);
+            height: 100px;
+            background-color: rgba(24, 166, 137, 0.43);
+        }
+        /* .panel-heading{
+        	height:70px;
+        } */
+    </style>
+</head>
+<body class="gray-bg">
+    <div class="row wrapper wrapper-content animated fadeInRight">
+       <!-- 左侧面板开始 -->
+       <div class="col-md-9">
+          <div class="row ibox-content">
+               <div class="col-md-4">
+                   <div class="btn-group pull-left">
+                       <button id="allMsg" class="btn btn-primary active" type="button">所有</button>
+                       <button id="flowMsg" class="btn btn-primary active" type="button">流程</button>
+                       <button id="dailyMsg" class="btn btn-primary active" type="button">日常</button>
+                       <button id="warnMsg" class="btn btn-primary active" type="button">告警</button>
+                   </div>
+               </div>
+               <div class="col-md-4">
+                   <div class="btn-group pull-right">
+                       <button id="allTyp" class="btn btn-primary active" type="button">所有</button>
+                       <button id="isLunch" class="btn btn-primary active" type="button">我发起的</button>
+                       <button id="isAccpt" class="btn btn-primary active" type="button">我处理</button>
+                   </div>
+               </div>
+               <div class="col-md-4">
+                   <div class="btn-group pull-right">
+                       <button id="allFollow" class="btn btn-primary active" type="button">所有</button>
+                       <button id="follow" class="btn btn-primary active" type="button">标记</button>
+                   </div>
+               </div>
+           </div>
+           <div class="row ibox-content">
+               <div class="col-xs-12">
+                   <div class="input-group">
+                       <input id="serhText" type="text" class="form-control"> 
+                       <span class="input-group-btn"> 
+                           <button id="serhBtn" type="button" class="btn btn-primary">搜索</button>
+                           <button id="reloadBtn" type="button" class="btn btn-success">刷新最新消息</button>
+                       </span>
+                   </div>
+               </div>
+           </div>
+           <div class="row ibox-content">
+               <div id="msgLst" class="list-group" style="height:800px; overflow:auto">
+               </div>
+               <button id="addmore_btn" type="button" class="btn btn-block btn-outline btn-primary">加载更多</button>
+           </div>
+       </div>
+       <!-- 左侧面板结束 -->
+       <!-- 右侧消息面板开始 -->
+       <div class="col-md-3 pull-right">
+          <div class="panel panel-default">
+               <div class="panel-heading">公告消息<button id="noticeBtn" type="button" class="btn btn-success">发送公告</button></div>
+               <div id="announcediv" class="panel-body">
+                   <div id="announceLst" class="list-group" style="height:400px; overflow:auto">
+                   </div>
+                   <button id="loadmore_btn" type="button" class="btn btn-block btn-outline btn-primary">加载更多</button>
+               </div>
+           </div>
+       </div>
+       <!-- 右侧消息面板结束 -->
+    </div>
+    <script src="resources/js/common/global.js"></script>
+    <script src="resources/js/jquery/jquery.min.js?v=2.1.4"></script>
+    <script src="resources/js/bootstrap/bootstrap.min.js?v=3.3.6"></script>
+    <script src="resources/js/plugins/layer/layer.js"></script>
+    <script src="resources/js/common/timeago.js"></script>
+    <script src="resources/js/jquery/jquery.validate.min.js"></script>
+    <script src="resources/js/jquery/jquery.serializejson.min.js"></script>
+    <script src="resources/js/plugins/toastr/toastr.min.js"></script>
+    <script type="text/javascript">
+        (function(g){
+            head.js(
+                g.httpYoungPath+"resources/js/common/common.js?v="+g.globalVersion,
+                g.httpYoungPath+"resources/js/newworkdesk.js?v="+g.globalVersion
+            );
+        }(global));
+    </script>
+</body>
+</html>

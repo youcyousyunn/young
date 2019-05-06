@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ycs.sys.dao.ProvCtiyDao">
+  <select id="cityLst" parameterType="java.util.Map" resultType="com.ycs.sys.domain.po.ProvCityPo">
+  	SELECT 
+  		AREA_TYP areaTyp,
+		AREA_ID areaId,
+		AREA_NM areaNm,
+		F_AREA_ID fAreaId,
+		SORT_ID sortId
+	FROM T_CMM_CITYINF
+  	<where>
+  		AREA_TYP='2'
+  		<if test="provCityCd != null">
+  			and F_AREA_ID = #{provCityCd}
+  		</if>
+  	</where>
+  	ORDER BY SORT_ID ASC
+  </select>
+  
+  
+  
+</mapper>
