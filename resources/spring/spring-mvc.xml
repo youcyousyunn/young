@@ -85,7 +85,8 @@
             </bean>
         </mvc:interceptor>
 	</mvc:interceptors>
-		
+	
+	<!-- 请求映射(@RequestMapping)处理适配器 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
         <property name="messageConverters">
             <list>
@@ -93,9 +94,7 @@
             </list>
         </property>
     </bean>
-
-    <bean id="mappingJacksonHttpMessageConverter"
-        class="com.ycs.base.spring.converter.HiMappingJacksonHttpMessageConverter">
+    <bean id="mappingJacksonHttpMessageConverter" class="com.ycs.base.spring.converter.HiMappingJacksonHttpMessageConverter">
         <property name="supportedMediaTypes">
             <list>
                 <bean class="org.springframework.http.MediaType">
