@@ -14,11 +14,8 @@ public @interface HiOperLog {
 	String operId() default "Unkown Operator";
 
 	String title() default "";
-
 	String action() default "";
-
 	boolean isSaveData() default false;
-
 	String channel() default "";
 
 }

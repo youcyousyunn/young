@@ -145,6 +145,13 @@ public class HiCommonInterceptor implements HandlerInterceptor {
 
 		if (clientIp == null || clientIp.length() == 0 || "unknown".equalsIgnoreCase(clientIp)) {
 			clientIp = request.getHeader("x-forwarded-for");
+			if (StringUtils.isNotEmpty(clientIp) && !"unKnown".equalsIgnoreCase(clientIp)) {
+				// 多次反向代理后会有多个IP值，第一个IP才是真实IP
+	            int index = clientIp.indexOf(",");
+	            if (index != -1){
+	            	clientIp = clientIp.substring(0, index);
+	            }
+			}
 		}
 
 		if (clientIp == null || clientIp.length() == 0 || "unknown".equalsIgnoreCase(clientIp)) {

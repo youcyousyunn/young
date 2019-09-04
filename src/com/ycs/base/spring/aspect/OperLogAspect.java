@@ -35,15 +35,15 @@ public class OperLogAspect {
 	@Autowired
 	private OperLogBo operLogBo;
 
-	@Pointcut("@annotation(com.ycs.base.annotation.HiOperLog)")
+	@Pointcut(value = "@annotation(com.ycs.base.annotation.HiOperLog)")
 	public void controllerAspect() {
 	}
 
-	@After("controllerAspect()")
+	@After(value = "controllerAspect()")
 	public void afterExec(JoinPoint joinPoint) {
 	}
 
-	@Around("controllerAspect()")
+	@Around(value = "controllerAspect()")
 	public Object aroundExec(ProceedingJoinPoint pjp) throws Throwable {
 		MethodSignature ms = (MethodSignature) pjp.getSignature();
 		Method method = ms.getMethod();
@@ -51,7 +51,6 @@ public class OperLogAspect {
 			HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 					.getRequest();
 			HttpSession session = request.getSession();
-			@SuppressWarnings("rawtypes")
 			HashMap sessionMap = (HashMap) session.getAttribute(Constants.USER_SESSION_INFO);
 			OperlogPo operlogPo = new OperlogPo();
 			operlogPo.setOperId(((HiOperLog) method.getAnnotation(HiOperLog.class)).operId());

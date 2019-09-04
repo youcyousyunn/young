@@ -1,18 +1,11 @@
 package com.ycs.base.domain.po;
 
-import java.io.Serializable;
-
 /**
  * 公共基类PO
  * @author youcyousyunn
  * @date 2018年3月12日
  */
-public abstract class BasePo implements Serializable {
-
-	/**
-	 * 序列化ID
-	 */
-	private static final long serialVersionUID = 8889782612063069000L;
+public abstract class BasePo {
 	
 	/**
      * 创建日期

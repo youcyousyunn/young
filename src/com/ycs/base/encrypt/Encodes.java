@@ -105,5 +105,11 @@ public class Encodes {
 		return StringEscapeUtils.escapeHtml4(html);
 	}
 	
+	public static void main(String[] args) {
+		String url = "5paZ5a2Q5b6I6IiS5pyN77yM5YeJ5YeJ55qE77yM6YWN5ZCI6JqV5Lid6KKr77yM5aSP5aSp5b6I5YeJ5b+rfg==";
+		byte[] decode = decodeBase64(url);
+		System.out.println(new String(decode));
+	}
+	
 }
 
