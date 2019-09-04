@@ -12,7 +12,7 @@
 
 	<!-- spring 基础配置 -->
 	<bean id="applicationContext" class="com.ycs.base.spring.SpringContextHolder" />
-	<context:component-scan base-package="com.ycs.**.service,com.ycs.**.bo,com.ycs.base.spring,com.ycs.**.jms.*" /> 
+	<context:component-scan base-package="com.ycs.**.service,com.ycs.**.bo,com.ycs.**.dao,com.ycs.base.spring,com.ycs.**.jms.*" /> 
 	<!-- 开启注解 -->
 	<context:annotation-config />
     <!-- 启动cglib代理 -->
@@ -32,7 +32,6 @@
 	<bean id="boLogAspectHandler" class="com.ycs.base.spring.aspect.LogAspect">
 		<property name="logName" value="BO" />
 	</bean>
-	
 	<aop:config>
 		<!-- 定义切面 -->
 		<aop:aspect id="logAspect" ref="boLogAspectHandler">
@@ -46,7 +45,6 @@
 	
 	<!-- 请求处理切面类 -->
 	<bean id="reqAspectHandler" class="com.ycs.base.spring.aspect.ReqAspect" />
-	
 	<aop:config proxy-target-class="true">
 		<!-- 参数处理切面 -->
 		<aop:aspect id="reqAspect" ref="reqAspectHandler">
