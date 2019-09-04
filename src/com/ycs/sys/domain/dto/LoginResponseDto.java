@@ -1,6 +1,5 @@
 package com.ycs.sys.domain.dto;
 
-import java.io.Serializable;
 import java.util.Date;
 
 import com.ycs.base.domain.dto.BaseResponseDto;
@@ -10,12 +9,7 @@ import com.ycs.base.domain.dto.BaseResponseDto;
  * @author youcyousyunn
  * @date 2018年2月9日
  */
-public class LoginResponseDto extends BaseResponseDto implements Serializable {
-
-	/**
-	 * 序列化版本号
-	 */
-	private static final long serialVersionUID = -2251243263797848667L;
+public class LoginResponseDto extends BaseResponseDto {
 
 	/**
      * 内部用户号

@@ -1,7 +1,5 @@
 package com.ycs.sys.domain.dto;
 
-import java.io.Serializable;
-
 import com.ycs.base.domain.dto.BaseRequestDto;
 
 /**
@@ -9,6 +7,6 @@ import com.ycs.base.domain.dto.BaseRequestDto;
  * @author youcyousyunn
  * @date 2018年11月29日
  */
-public class SendIdentifyCodeRequestDto extends BaseRequestDto implements Serializable {
+public class SendIdentifyCodeRequestDto extends BaseRequestDto {
 	
 }

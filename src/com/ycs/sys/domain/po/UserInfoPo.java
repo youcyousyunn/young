@@ -1,12 +1,21 @@
 package com.ycs.sys.domain.po;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.ycs.base.domain.po.BasePo;
 
-public class UserInfoPo extends BasePo {
-	private static final long serialVersionUID = 1138679384644633908L; //序列化ID
+/**
+ * 用户实体PO
+ * @author youcyousyunn
+ * @date 2017年7月19日
+ */
+public class UserInfoPo extends BasePo implements Serializable {
+	/**
+	 * 序列化版本号
+	 */
+	private static final long serialVersionUID = -576515021152949193L;
 	private String usrNo;  //内部用户号
     private String usrPwd;  //密码
     private String jobNo;  //工号

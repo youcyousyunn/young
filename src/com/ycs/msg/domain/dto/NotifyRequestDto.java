@@ -1,7 +1,5 @@
 package com.ycs.msg.domain.dto;
 
-import java.io.Serializable;
-
 import org.apache.commons.lang.StringUtils;
 
 import com.ycs.base.domain.dto.BaseRequestDto;
@@ -11,13 +9,8 @@ import com.ycs.base.domain.dto.BaseRequestDto;
  * @author youcyousyunn
  * @date 2019年3月20日
  */
-public class NotifyRequestDto extends BaseRequestDto implements Serializable {
-
-	/**
-	 * 序列化版本号
-	 */
-	private static final long serialVersionUID = -7947704936414065603L;
-
+public class NotifyRequestDto extends BaseRequestDto {
+	
 	/**
      * 公告标题
      */

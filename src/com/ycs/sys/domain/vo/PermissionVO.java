@@ -1,6 +1,5 @@
 package com.ycs.sys.domain.vo;
 
-import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.util.CollectionUtils;
@@ -10,7 +9,7 @@ import org.springframework.util.CollectionUtils;
  * @author youcyousyunn
  * @date 2018年2月11日
  */
-public class PermissionVO implements Serializable {
+public class PermissionVO {
 
 	/**
      * 权限号

@@ -1,6 +1,5 @@
 package com.ycs.sys.domain.dto;
 
-import java.io.Serializable;
 import java.util.List;
 
 import com.ycs.base.domain.dto.BaseResponseDto;
@@ -11,12 +10,7 @@ import com.ycs.sys.domain.vo.PermissionVO;
  * @author youcyousyunn
  * @date 2018年2月11日
  */
-public class GetPermissionResponseDto extends BaseResponseDto implements Serializable {
-
-	/**
-	 * 序列化版本号
-	 */
-	private static final long serialVersionUID = -7718744084621159624L;
+public class GetPermissionResponseDto extends BaseResponseDto {
 
 	/**
      * 菜单集合

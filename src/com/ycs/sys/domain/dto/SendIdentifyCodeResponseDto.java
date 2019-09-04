@@ -1,7 +1,5 @@
 package com.ycs.sys.domain.dto;
 
-import java.io.Serializable;
-
 import com.ycs.base.domain.dto.BaseResponseDto;
 
 /**
@@ -9,9 +7,11 @@ import com.ycs.base.domain.dto.BaseResponseDto;
  * @author youcyousyunn
  * @date 2018年11月29日
  */
-public class SendIdentifyCodeResponseDto extends BaseResponseDto implements Serializable {
-	private static final long serialVersionUID = 5140307862044869746L;
+public class SendIdentifyCodeResponseDto extends BaseResponseDto {
 
+	/**
+	 * 构造函数
+	 */
 	public SendIdentifyCodeResponseDto(){
 	}
 	
